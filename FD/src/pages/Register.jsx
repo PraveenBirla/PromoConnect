@@ -31,24 +31,31 @@ const Register = () => {
 
     try {
       const response = await fetch("http://localhost:8085/user/singup", {
-        method: "POST",
+        method: "POST", 
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
-      });
+      }); 
 
      
-      const resultText = await response.text();  
+      const userID = await response.json();  
+     localStorage.setItem("userId", userID); 
 
       if (!response.ok) {
         setIsSuccess(false);
-         
-        setMessage(resultText || "Registration failed.");
+          if (response.status === 400) {
+        
+          setMessage("Registration failed: Email might already be registered or invalid input.");
+        } else {
+          
+           setMessage("Registration failed.");
+        }
+        
       } else {
         setIsSuccess(true);
         
-        setMessage(resultText || "Registration successful.");
+        setMessage("Registration successful.");
         setTimeout(() => {
           navigate("/onboarding");
         }, 1500);

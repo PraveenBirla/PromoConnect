@@ -20,12 +20,21 @@ public class User {
     
 
     private String password ;
-    private String username ;
+    private String username ; 
+    private String usertype ;
+
+    public String getUsertype() {
+      return usertype;
+    }
+
+    public void setUsertype(String usertype) {
+      this.usertype = usertype;
+    }
 
     public Long getId() {
       return id;
     }
-
+     
     public void setId(Long id) {
       this.id = id;
     }

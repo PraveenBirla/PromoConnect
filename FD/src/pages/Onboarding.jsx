@@ -1,15 +1,53 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CreatorDetailsForm from "../components/Onboarding/CreatorDetailForm";
 import BrandDetailsForm from "../components/Onboarding/BrandDetailform";
 const Onboarding = () => {
   const [step, setStep] = useState(1);
   const [userType, setUserType] = useState("");
+   const [notification, setNotification] = useState({ message: '', type: '' });
   const navigate = useNavigate();
+  
 
-  const handleUserTypeSelection = () => {
-    if (userType) {
-      setStep(2);
+  useEffect(() => {
+    let timer;
+    if (notification.message) {
+ 
+      timer = setTimeout(() => {
+        setNotification({ message: '', type: '' });
+      }, 3000);
+    }
+     
+    return () => clearTimeout(timer);
+  }, [notification]); 
+
+
+
+
+  const handleUserTypeSelection = async () => {  
+
+    const userId = localStorage.getItem("userId"); 
+    
+    const requestbody = {
+       userType : userType 
+    } ;
+    if (userType && userId) {
+      try {
+      const response =  await fetch(`http://localhost:8085/user/${userId}/userType`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestbody),
+        });
+        if(!response.ok){
+           console.error(`Failed to update user type`)
+        } 
+
+         setNotification({ message: "User type updated successfully!", type: "success" }) ;
+        setStep(2);  
+      } catch (error) {
+        console.error("Failed to update user type:", error);
+           setNotification({ message: "Something went wrong. Please try again.", type: "error" });
+      }  
     }
   }; 
 
@@ -19,7 +57,7 @@ const Onboarding = () => {
     } else {
       navigate("/advertisers");
     } 
-    
+     
   }; 
 
   const handleSkip = () => {
