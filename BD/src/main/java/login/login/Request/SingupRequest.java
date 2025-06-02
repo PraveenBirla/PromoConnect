@@ -1,11 +1,19 @@
 package login.login.Request;
 
+import io.micrometer.common.lang.NonNull;
 
+public class SingupRequest{ 
 
-public class SingupRequest{
-   private String username ;
-   private String email ;
-   private String password  ;
+  @NonNull
+   private String username ; 
+
+   @NonNull
+   private String email ; 
+
+   @NonNull
+   private String password  ; 
+
+    
    public String getUsername() {
      return username;
    }

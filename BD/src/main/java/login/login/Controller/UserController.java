@@ -40,8 +40,8 @@ public class UserController {
         
   }  
  
-  @PutMapping("/{userId}/userType")
-  public ResponseEntity<User> putMethodName(@PathVariable Long id, @RequestBody UpdateRequest request) {
+  @PutMapping("/{id}/userType")
+  public ResponseEntity<User> putMethodName(@PathVariable("id") Long id, @RequestBody UpdateRequest request) {
       User updatedUser = userService.userUpdate(request, id) ;
 
       

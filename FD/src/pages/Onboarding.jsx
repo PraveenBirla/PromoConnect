@@ -29,7 +29,7 @@ const Onboarding = () => {
     const userId = localStorage.getItem("userId"); 
     
     const requestbody = {
-       userType : userType 
+       userType : userType   
     } ;
     if (userType && userId) {
       try {
@@ -37,18 +37,28 @@ const Onboarding = () => {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(requestbody),
-        });
+        });  
+
+           const data = await response.json().catch(() => ({})); 
+
+
         if(!response.ok){
-           console.error(`Failed to update user type`)
+            console.error("Failed to update user type", data);
+        setNotification({ message: "Failed to update user type.", type: "error" });
+        return;
         } 
 
          setNotification({ message: "User type updated successfully!", type: "success" }) ;
         setStep(2);  
       } catch (error) {
-        console.error("Failed to update user type:", error);
-           setNotification({ message: "Something went wrong. Please try again.", type: "error" });
-      }  
-    }
+        console.error("Network or server error:", error);
+         setNotification({ message: "Something went wrong. Please try again.", type: "error" });
+      }   
+     
+    } 
+    else {
+    setNotification({ message: "User type or user ID is missing.", type: "error" });
+  }
   }; 
 
   const handleDetailsComplete = () => {
@@ -69,8 +79,15 @@ const Onboarding = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-20">
-      <div>
-        {step === 1 && (
+      <div> 
+        {notification.message && (
+  <div className={`text-center p-2 rounded mb-4 ${notification.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+    {notification.message}
+  </div>
+   )}
+
+        {step === 1 && ( 
+          
           <div className="bg-white rounded-xl shadow-md border max-w-4xl mx-auto p-6 space-y-6">
             <h2 className="text-2xl font-bold text-center mb-2">Welcome to PromoConnect!</h2>
             <p className="text-center text-gray-600 mb-6">
