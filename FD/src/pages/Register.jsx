@@ -22,7 +22,7 @@ const Register = () => {
 
     if (!validateEmail(email)) {
       setMessage("Please enter a valid email address.");
-      return;
+      return; 
     }
 
     setIsLoading(true);
@@ -30,32 +30,35 @@ const Register = () => {
     const userData = { username, email, password };
 
     try {
-      const response = await fetch("http://localhost:8085/user/singup", {
+      const response = await fetch("http://localhost:8085/user/signup", {
         method: "POST", 
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
       }); 
-
      
-      const userID = await response.json();  
-     localStorage.setItem("userId", userID); 
-
+      
+      const data  = await response.json();  
+     
       if (!response.ok) {
         setIsSuccess(false);
           if (response.status === 400) {
-        
-          setMessage("Registration failed: Email might already be registered or invalid input.");
+         setMessage("Registration failed: Email might already be registered or invalid input.");
         } else {
-          
-           setMessage("Registration failed.");
+            setMessage("Registration failed.");
         }
         
-      } else {
+      } 
+      
+      else {
         setIsSuccess(true);
-        
-        setMessage("Registration successful.");
+          
+      setMessage("Registration successful.");
+           
+      if (data.token) {
+      localStorage.setItem("token", data.token);
+        }
         setTimeout(() => {
           navigate("/onboarding");
         }, 1500);
@@ -68,7 +71,7 @@ const Register = () => {
       setIsLoading(false);
     }
   };
-
+ 
   return ( 
     <div className="min-h-[600px] flex items-center justify-center bg-gray-50 px-4">
     <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-md border border-gray-200">
