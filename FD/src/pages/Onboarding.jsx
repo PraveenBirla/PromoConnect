@@ -26,16 +26,18 @@ const Onboarding = () => {
 
   const handleUserTypeSelection = async () => {  
 
-    const userId = localStorage.getItem("userId"); 
+    const token = localStorage.getItem("token"); 
     
     const requestbody = {
        userType : userType   
     } ;
-    if (userType && userId) {
+    if (userType && token) {
       try {
-      const response =  await fetch(`http://localhost:8085/user/${userId}/userType`, {
+      const response =  await fetch(`http://localhost:8085/user/userType`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" ,
+               "Authorization":`Bearer ${token}`
+          },
           body: JSON.stringify(requestbody),
         });  
 

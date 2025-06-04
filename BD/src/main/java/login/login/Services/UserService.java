@@ -10,6 +10,7 @@ import login.login.Model.User;
 import login.login.Repository.UserRepository;
 import login.login.Request.SingupRequest;
 import login.login.Request.UpdateRequest ;
+import login.login.component.JwtUtil;
 
 @Service
 public class UserService {
@@ -17,6 +18,9 @@ public class UserService {
   @Autowired
   public  UserRepository userrepository ; 
 
+
+  @Autowired 
+  public JwtUtil jwtUtil ;
   
   
 
@@ -40,13 +44,14 @@ public class UserService {
        return user ;
   } 
 
-  public User userUpdate(UpdateRequest request , Long id){
-       Optional<User> userOptional = userrepository.findById(id) ;
+  public User userUpdate(UpdateRequest request , String email){ 
+    
+       Optional<User> userOptional = userrepository.findByEmail(email) ;
        if(userOptional.isEmpty()){
-        System.err.println("User not found with ID: " + id); 
+        System.err.println("User not found with email " ); 
             return null;
        } 
-
+       
        User user = userOptional.get() ;
        user.setUsertype(request.getUserType());
        User Updateduser = userrepository.save(user) ; 

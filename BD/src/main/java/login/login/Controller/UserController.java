@@ -3,13 +3,17 @@ package login.login.Controller;
 import java.util.HashMap;
 import java.util.Map;
 
+   
+import org.springframework.security.core.Authentication ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
 import login.login.Model.User;
 import login.login.Request.SingupRequest;
 import login.login.Request.UpdateRequest;
@@ -57,14 +61,19 @@ public class UserController {
         
   }  
  
-  @PutMapping("/{id}/userType")
-  public ResponseEntity<User> putMethodName(@PathVariable("id") Long id, @RequestBody UpdateRequest request) {
-      User updatedUser = userService.userUpdate(request, id) ;
+  @PutMapping("/userType")
+  public ResponseEntity<User> putMethodName( @RequestBody UpdateRequest request ) { 
+
+     Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+     String email = auth.getName();
+     
+
+    User updatedUser = userService.userUpdate(request, email) ;
 
       
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);  
-        } else {
+        } else { 
             
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
