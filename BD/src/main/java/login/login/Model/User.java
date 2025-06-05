@@ -1,8 +1,12 @@
 package login.login.Model;
 
  
+import java.util.Set;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +21,18 @@ public class User {
     @Column(unique = true )
     private String email ; 
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> roles;
+
     
+
+    public Set<String> getRoles() {
+      return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+      this.roles = roles;
+    }
 
     private String password ;
     private String username ; 

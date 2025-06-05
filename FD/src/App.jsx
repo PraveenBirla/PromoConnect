@@ -5,8 +5,13 @@ import Onboarding from './pages/Onboarding'
 import './App.css' ;
 import Footer from './components/layouts/Footer';
 import { BrowserRouter, Routes ,Route } from 'react-router-dom'
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+function App() {  
+   
+     
+  
 
-function App() {
    return( 
       <BrowserRouter>
       <Routes>
