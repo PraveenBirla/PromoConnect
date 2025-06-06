@@ -3,11 +3,14 @@ package login.login.Services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import login.login.Model.User;
 import login.login.Repository.UserRepository;
+import login.login.Request.LogingRequest;
 import login.login.Request.SingupRequest;
 import login.login.Request.UpdateRequest ;
 import login.login.component.JwtUtil;
@@ -57,5 +60,19 @@ public class UserService {
        User Updateduser = userrepository.save(user) ; 
 
        return Updateduser ;
+  } 
+   
+  public User UserLogin(LogingRequest request){
+          Optional<User> userOptional = userrepository.findByEmail(request.getEmail()); 
+
+          if(userOptional.isPresent()){
+          User user = userOptional.get();
+
+          if(passwordEncoder.matches( request.getPassword() , user.getPassword())){
+               return user ;
+          }}  
+
+          throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
   }
+
 }

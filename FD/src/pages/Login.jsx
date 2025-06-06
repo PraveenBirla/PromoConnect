@@ -1,20 +1,64 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate(); // ✅ You forgot this
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setMessage("");
+    setIsSuccess(false);
 
-    console.log("Login attempt:", { email, password });
+    const userdata = { email, password };
 
-    setTimeout(() => {
+    try {
+      const response = await fetch("http://localhost:8085/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userdata),
+      });
+
+      const data = await response.json().catch(() => ({}));  
+
+      if (!response.ok) {
+        setIsSuccess(false);
+        if (response.status === 401) {
+          setMessage(data.error || "Invalid email or password.");
+        } else if (response.status === 500) {
+          setMessage("Server error. Please try again later.");
+        } else {
+          setMessage("Login failed. Please check your credentials.");
+        }
+        return;
+      }
+
+     else{
+      setIsSuccess(true);
+      setMessage("Login successful!");
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+      } else {
+        setMessage("Login succeeded, but token was missing.");
+      }
+     }
+    } catch (error) {
+      setIsSuccess(false);
+      setMessage("Network error. Please check your connection.");
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -25,7 +69,19 @@ const Login = () => {
           <p className="text-gray-500 text-sm mt-1">
             Enter your email and password to access your account
           </p>
-        </div> 
+        </div>
+
+        {message && (
+          <div
+            className={`p-3 rounded mb-4 text-sm font-medium ${
+              isSuccess
+                ? "bg-green-100 text-green-700 border border-green-300"
+                : "bg-red-100 text-red-700 border border-red-300"
+            }`}
+          >
+            {message}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -67,11 +123,10 @@ const Login = () => {
             type="submit"
             disabled={isLoading}
             className="w-full bg-blue-500 text-white py-2 rounded-md font-medium 
-            hover:bg-blue-600 transition duration-200    disabled:opacity-60 disabled
-            :cursor-not-allowed"
+            hover:bg-blue-600 transition duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? "Logging in..." : "Log in"}
-          </button> 
+          </button>
         </form>
 
         <div className="text-center text-sm text-gray-500 mt-6">

@@ -12,9 +12,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
  
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
- 
 import login.login.Model.User;
+import login.login.Request.LogingRequest;
 import login.login.Request.SingupRequest;
 import login.login.Request.UpdateRequest;
 import login.login.Services.UserService;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+ 
 
 
 
@@ -62,7 +63,35 @@ public class UserController {
     }
      
         
-  }  
+  }   
+
+  @PostMapping("/login")
+          public ResponseEntity<Map<String,String>> loginUser(@RequestBody LogingRequest request){
+            try{
+                User user = userService.UserLogin(request);
+                String token = jwtUtil.generateToken(user.getEmail())  ;
+                 
+                    Map<String , String> response = new HashMap<>() ;
+                    response.put("token", token) ;
+                    return ResponseEntity.ok(response);  
+                 
+            }  
+            catch (ResponseStatusException e) {
+         
+            Map<String, String> error = new HashMap<>();
+             error.put("error", e.getReason());
+            return ResponseEntity.status(e.getStatusCode()).body(error);
+        
+    } catch (Exception e) {
+       
+        e.printStackTrace(); 
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Something went wrong");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+           }
+  
+  
  
   @PutMapping("/userType")
   public ResponseEntity<User> putMethodName( @RequestBody UpdateRequest request ) { 
@@ -85,7 +114,7 @@ public class UserController {
   }  
 
   @GetMapping("/validate-token")
-  public ResponseEntity<Void>  validateToken(@RequestHeader String authHeader) {
+  public ResponseEntity<Void>  validateToken(@RequestHeader("Authorization") String authHeader) {
        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

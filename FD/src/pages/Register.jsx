@@ -34,8 +34,7 @@ const Register = () => {
         method: "POST", 
         headers: {
           "Content-Type": "application/json",
-          
-        },
+           },
         body: JSON.stringify(userData),
       }); 
      
@@ -64,8 +63,7 @@ const Register = () => {
           navigate("/onboarding");
         }, 1500);
       } 
-    } catch (error) {
-      console.error("Fetch or JSON parsing error:", error);  
+    } catch (error) {  
       setIsSuccess(false);
       setMessage("Something went wrong. Please try again.");
     } finally {

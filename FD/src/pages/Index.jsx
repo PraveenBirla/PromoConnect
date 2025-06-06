@@ -7,32 +7,50 @@ import { useEffect , useState} from "react";
 
 const Index = () => { 
    const [isLoggedIn, setIsLoggedIn] = useState(false) ;
-   
+   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-  if (token) {
-    
-    fetch("/api/validate-token", {
+    if (!token) {
+      setIsLoggedIn(false) ;
+      setAuthChecked(true) ;
+      return ; 
+  } 
+
+    fetch("http://localhost:8085/user/validate-token", {
       headers: { Authorization: `Bearer ${token}` }
     })
-    .then(res => {
-      if (res.ok) {
+    .then((res )=> {
+      if (res.ok) { 
         
         setIsLoggedIn(true);
-      } else {
-         
+      } else {   
+        console.log("Token validation failed, removing token. Status:", res.status);
         localStorage.removeItem("token");
         setIsLoggedIn(false);
       }
-    });
-  } else {
-    setIsLoggedIn(false);
-  }
-  }, []);
-   
+    })
+    .catch((err) => { 
+          
+          localStorage.removeItem("token");
+          setIsLoggedIn(false);
+          
+        })
+         .finally(() => { 
+          setAuthChecked(true) ;
+        });
    
   
+  }, []);
+    
+   
+   if (!authChecked) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-xl">
+        Loading...
+      </div>
+    );   
+  }
     
   return(
    <>
