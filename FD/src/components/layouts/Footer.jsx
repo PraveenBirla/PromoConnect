@@ -4,10 +4,10 @@ import { Megaphone } from "lucide-react";
 const Footer = () => {
   return (
     <footer className="bg-secondary text-sm text-muted-foreground border-t">
-      <div className="container max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {/* Branding Section */}
-          <div className="space-y-4">
+      <div className="container max-w-7xl mx-auto px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12">
+           
+          <div className="space-y-4 ">
             <div className="flex items-center gap-2">
               <Megaphone className="h-6 w-6 text-accent" />
               <span className="font-bold text-xl text-primary">PromoConnect</span>
@@ -17,7 +17,7 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Platform Links */}
+           
           <div>
             <h3 className="font-semibold text-base mb-4 text-primary">Platform</h3>
             <ul className="space-y-2">
@@ -39,7 +39,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Company Links */}
+           
           <div>
             <h3 className="font-semibold text-base mb-4 text-primary">Company</h3>
             <ul className="space-y-2">
@@ -61,7 +61,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal Links */}
+          
           <div>
             <h3 className="font-semibold text-base mb-4 text-primary">Legal</h3>
             <ul className="space-y-2">
@@ -84,7 +84,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Footer Bottom */}
+        
         <div className="mt-12 pt-8 border-t border-border text-center text-xs sm:text-sm">
           <p>&copy; {new Date().getFullYear()} PromoConnect. All rights reserved.</p>
         </div>
