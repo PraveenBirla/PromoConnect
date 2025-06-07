@@ -19,14 +19,14 @@ const CTAsection = () => {
         }}
       ></div>
 
-      {/* Pulsing Circles */}
+      
       <div className="absolute top-20 left-10 w-64 h-64 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
       <div
         className="absolute bottom-20 right-10 w-64 h-64 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"
         style={{ animationDelay: "3s" }}
       ></div>
  
-      {/* Content */}
+       
       <div className="container px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto space-y-8">
           <div
@@ -36,7 +36,7 @@ const CTAsection = () => {
             }`}
           >
             <div
-              className={`inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 text-sm text-white transition-all duration-700 delay-200 ${
+              className={`inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 px-2 py-1 text-xs sm:text-sm text-white transition-all duration-700 delay-200 ${
                 ctaVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
               }`}
             >
@@ -45,18 +45,18 @@ const CTAsection = () => {
             </div>
 
             <h2
-              className={`text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl text-white leading-tight transition-all duration-1000 delay-300 ${
+              className={`text-2xl font-bold tracking-tight sm:text-5xl md:text-6xl text-white leading-tight transition-all duration-1000 delay-300 ${
                 ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
             >
               Ready to Start{" "}
               <span className="block bg-gradient-to-r from-purple-300 to-blue-300 bg-clip-text text-transparent">
                 Creating Magic?
-              </span>
+              </span> 
             </h2>
 
             <p
-              className={`max-w-2xl text-xl text-gray-300 md:text-2xl font-light leading-relaxed transition-all duration-1000 delay-500 ${
+              className={`max-w-2xl text-xs text-gray-300 md:text-2xl font-light leading-relaxed transition-all duration-1000 delay-500 ${
                 ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
@@ -66,24 +66,24 @@ const CTAsection = () => {
 
           <div
             ref={buttonsRef}
-            className={`flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-md transition-all duration-1000 delay-700 ${
+            className={`flex flex-row   items-center justify-center gap-3 w-full max-w-xs sm:max-w-md transition-all duration-1000 delay-700 ${
               buttonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <Link to="/register" className="w-full sm:w-auto">
-              <button  className="w-full sm:min-w-[220px] px-8 py-2 text-lg bg-white text-gray-900 hover:bg-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl font-semibold group inline-flex items-center justify-center gap-2">
-                <span>Sign Up Now</span>
+            <Link to="/register" className="w-auto">
+              <button  className="w-full sm:min-w-[220px] px-2 py-1 text-xs md:text-lg bg-white text-gray-900 hover:bg-gray-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl font-semibold group inline-flex items-center justify-center gap-0 sm:gap-2">
+                <span  className="whitespace-nowrap">Sign Up Now</span>
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
             </Link>
-            <Link to="/login" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto px-8 py-2 text-lg border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 hover:scale-105 rounded-xl bg-transparent backdrop-blur-sm">
-                Log In
+            <Link to="/login" className="w-auto">
+              <button className="w-full sm:w-auto px-2 py-1 text-xs md:text-lg border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300 hover:scale-105 rounded-xl bg-transparent backdrop-blur-sm">
+                Log In 
               </button>
             </Link>
           </div>
 
-          {/* Trust Indicators */}
+           
           <div
             ref={trustRef}
             className={`flex flex-wrap justify-center items-center gap-8 transition-all duration-1000 delay-900 ${
