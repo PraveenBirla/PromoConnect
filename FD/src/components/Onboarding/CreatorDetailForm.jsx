@@ -5,16 +5,16 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
     displayName: "",
     bio: "",
     niche: "",
+    otherNiche: "",  
     platforms: [],
     instagram: "",
     youtube: "",
-    tiktok: "",
-    twitter: "", 
-    followers: "",
-    rate: "",
-    location: "",
-    phone: ""
-  });
+    tiktok: "",  
+    twitter: "",
+    linkedin: "",  
+    facebook: ""
+     
+  });  
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,7 +36,7 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
     "Education",
     "Entertainment",
     "Business",
-    "Other"
+    "Other"  
   ];
 
   const handlePlatformChange = (platformId, checked) => {
@@ -48,16 +48,33 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
     }));
   };
 
+  const handleNicheChange = (e) => {
+    const selectedNiche = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      niche: selectedNiche,
+      otherNiche: selectedNiche === "Other" ? prev.otherNiche : ""  
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log("Saving creator details:", formData);
+
+     
+    const dataToSend = { ...formData };
+    if (formData.niche === "Other") {
+      dataToSend.niche = formData.otherNiche;  
+    }
+    delete dataToSend.otherNiche; 
+
+    console.log("Saving creator details:", dataToSend);
     setTimeout(() => {
       setIsLoading(false);
       onComplete();
     }, 1500);
   };
- 
+
   return (
     <div className="bg-white rounded-xl shadow-md border max-w-4xl mx-auto p-6 space-y-6">
       <h2 className="text-2xl font-bold text-center">Creator Profile Setup</h2>
@@ -66,28 +83,16 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium mb-1">Display Name *</label>
-            <input
-              type="text"
-              required
-              value={formData.displayName}
-              onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
-              placeholder="Your creator name"
-              className="w-full border rounded-md p-2"
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Location</label>
-            <input
-              type="text"
-              value={formData.location}
-              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              placeholder="City, Country"
-              className="w-full border rounded-md p-2"
-            />
-          </div>
+        <div>
+          <label className="block font-medium mb-1">Display Name *</label>
+          <input
+            type="text"
+            required
+            value={formData.displayName}
+            onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
+            placeholder="Your creator name"
+            className="w-full border rounded-md p-2"
+          />
         </div>
 
         <div>
@@ -106,7 +111,7 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
           <select
             required
             value={formData.niche}
-            onChange={(e) => setFormData({ ...formData, niche: e.target.value })}
+            onChange={handleNicheChange} 
             className="w-full border rounded-md p-2"
           >
             <option value="">Select your primary niche</option>
@@ -116,6 +121,16 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
               </option>
             ))}
           </select>
+          {formData.niche === "Other" && (  
+            <input
+              type="text"
+              required
+              value={formData.otherNiche}
+              onChange={(e) => setFormData({ ...formData, otherNiche: e.target.value })}
+              placeholder="Please specify your niche"
+              className="w-full border rounded-md p-2 mt-2"
+            />
+          )}
         </div>
 
         <div>
@@ -136,62 +151,82 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
           </div>
         </div>
 
+         
         <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium mb-1">Instagram Handle</label>
-            <input
-              type="text"
-              value={formData.instagram}
-              onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
-              placeholder="@username"
-              className="w-full border rounded-md p-2"
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">YouTube Channel</label>
-            <input
-              type="text"
-              value={formData.youtube}
-              onChange={(e) => setFormData({ ...formData, youtube: e.target.value })}
-              placeholder="Channel name"
-              className="w-full border rounded-md p-2"
-            />
-          </div>
+          {formData.platforms.includes("instagram") && (
+            <div>
+              <label className="block font-medium mb-1">Instagram Profile Link</label>
+              <input
+                type="url"  
+                value={formData.instagram}
+                onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
+                placeholder="e.g., https://instagram.com/yourprofile"
+                className="w-full border rounded-md p-2"
+              />
+            </div>
+          )}
+          {formData.platforms.includes("youtube") && (
+            <div>
+              <label className="block font-medium mb-1">YouTube Channel Link</label>
+              <input
+                type="url"
+                value={formData.youtube}
+                onChange={(e) => setFormData({ ...formData, youtube: e.target.value })}
+                placeholder="e.g., https://youtube.com/yourchannel"
+                className="w-full border rounded-md p-2"
+              />
+            </div>
+          )}
+          {formData.platforms.includes("tiktok") && (
+            <div>
+              <label className="block font-medium mb-1">TikTok Profile Link</label>
+              <input
+                type="url"
+                value={formData.tiktok}
+                onChange={(e) => setFormData({ ...formData, tiktok: e.target.value })}
+                placeholder="e.g., https://tiktok.com/@yourprofile"
+                className="w-full border rounded-md p-2"
+              />
+            </div>
+          )}
+          {formData.platforms.includes("twitter") && (
+            <div>
+              <label className="block font-medium mb-1">Twitter/X Profile Link</label>
+              <input
+                type="url"
+                value={formData.twitter}
+                onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
+                placeholder="e.g., https://twitter.com/yourprofile"
+                className="w-full border rounded-md p-2"
+              />
+            </div>
+          )}
+          {formData.platforms.includes("linkedin") && (
+            <div>
+              <label className="block font-medium mb-1">LinkedIn Profile Link</label>
+              <input
+                type="url"
+                value={formData.linkedin}
+                onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
+                placeholder="e.g., https://linkedin.com/in/yourprofile"
+                className="w-full border rounded-md p-2"
+              />
+            </div>
+          )}
+          {formData.platforms.includes("facebook") && (
+            <div>
+              <label className="block font-medium mb-1">Facebook Profile Link</label>
+              <input
+                type="url"
+                value={formData.facebook}
+                onChange={(e) => setFormData({ ...formData, facebook: e.target.value })}
+                placeholder="e.g., https://facebook.com/yourprofile"
+                className="w-full border rounded-md p-2"
+              />
+            </div>
+          )}
         </div>
-
-        <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium mb-1">Total Followers</label>
-            <input
-              type="text"
-              value={formData.followers}
-              onChange={(e) => setFormData({ ...formData, followers: e.target.value })}
-              placeholder="e.g., 10k, 100k"
-              className="w-full border rounded-md p-2"
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Rate per Post</label>
-            <input
-              type="text"
-              value={formData.rate}
-              onChange={(e) => setFormData({ ...formData, rate: e.target.value })}
-              placeholder="e.g., $100"
-              className="w-full border rounded-md p-2"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block font-medium mb-1">Phone Number</label>
-          <input
-            type="tel"
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            placeholder="+1 (555) 123-4567"
-            className="w-full border rounded-md p-2"
-          />
-        </div>
+ 
 
         <div className="flex flex-col gap-3 mt-4">
           <button

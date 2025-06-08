@@ -80,7 +80,7 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-20">
+    <div className="min-h-screen   bg-gradient-to-r from-purple-200 to-blue-400 flex items-center justify-center py-20">
       <div> 
         {notification.message && (
   <div className={`text-center p-2 rounded mb-4 ${notification.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
