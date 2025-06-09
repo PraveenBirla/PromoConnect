@@ -1,22 +1,15 @@
-package profile.set.model;
+package  profile.set.request ;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name="CreatorsDetail")
-public class Creator {
-     
-  @Column(unique=true)
-  Long Id ;
-   
-  private String  displayName ;
+public class CreatorDetailRequest {
+      
+    private String  displayName ;
   
-  private String nich ;
+  private String nich ; 
+
   @ElementCollection 
   private List<String>  platforms ;
   
@@ -26,12 +19,8 @@ public class Creator {
   private String twitter;
   private String linkedin;
   private String facebook;
-  public Long getId() {
-    return Id;
-  }
-  public void setId(Long id) {
-    this.Id = id;
-  }
+  
+  
   public String getDisplayName() {
     return displayName;
   }
@@ -85,7 +74,6 @@ public class Creator {
   }
   public void setFacebook(String facebook) {
     this.facebook = facebook;
-  } 
+  }  
 
-    
 }
