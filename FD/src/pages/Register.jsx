@@ -72,13 +72,13 @@ const Register = () => {
   };
  
   return ( 
-    <div className="min-h-[600px] flex items-center justify-center bg-gray-50 px-4">
-    <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-md border border-gray-200">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Register</h2>
+    <div className="min-h-[500px] sm:min-h-[600px] flex items-center justify-center bg-gradient-to-r from-purple-200 to-blue-400   px-4">
+    <div className="sm:w-full max-w-md bg-white p-8 rounded-xl shadow-md border border-gray-200">
+      <h2 className="sm:text-2xl font-semibold mb-4 text-center">Register</h2>
 
       {message && (
         <div
-          className={`p-3 rounded mb-4 text-sm font-medium ${
+          className={`p-3 rounded mb-4 text-xs sm:text-sm font-medium ${
             isSuccess
               ? "bg-green-100 text-green-700 border border-green-300"
               : "bg-red-100 text-red-700 border border-red-300"
@@ -90,7 +90,7 @@ const Register = () => {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block font-medium mb-1">Name</label>
+          <label className=" text-sm sm:text-lg font-medium mb-0.5 sm:mb-1 ">Name</label>
           <input
             type="text"
             placeholder="Enter your full name"
@@ -102,7 +102,7 @@ const Register = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Email</label>
+          <label className=" text-sm sm:text-lg font-medium mb-0.5 sm:mb-1 ">Email</label>
           <input
             type="email"
             placeholder="Enter your email address"
@@ -114,21 +114,21 @@ const Register = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Password</label>
+          <label className=" text-sm sm:text-lg font-medium mb-0.5 sm:mb-1 ">Password</label>
           <input
             type="password"
             placeholder="Create a password"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
+            className="w-full px-1 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
+        </div> 
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50"
+          className="w-full py-1 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50"
         >
           {isLoading ? "Registering..." : "Register"}
         </button>

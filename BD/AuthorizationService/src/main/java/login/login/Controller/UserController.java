@@ -1,4 +1,4 @@
-package login.login.Controller;
+package login.login.controller;
 
 import java.util.HashMap;
 import java.util.Map;
