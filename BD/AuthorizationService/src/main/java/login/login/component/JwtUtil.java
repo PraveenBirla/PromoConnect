@@ -15,23 +15,36 @@ public class JwtUtil {
 
     private final long jwtExpirationMs = 3600000;  
   
-     public JwtUtil() {
+     public JwtUtil() { 
+
     }
 
 
-    public String generateToken(String username) {
+    public String generateToken(String username , Long userId) {
         return Jwts.builder()
             .setSubject(username)
+            .claim("userId" , userId) 
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
             .signWith(key)
             .compact();
-    }  
+    }   
+
+    public Long getuserIdFromToken(String token){
+           Claims claims = Jwts.parserBuilder()
+        .setSigningKey(key)
+        .build()
+        .parseClaimsJws(token)
+        .getBody();
+
+    return claims.get("userId", Long.class);
+    } 
 
     public String getUsernameFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build()
             .parseClaimsJws(token).getBody().getSubject();
     }
+  
 
     public boolean validateToken(String token) {
         try {

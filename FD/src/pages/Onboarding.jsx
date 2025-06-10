@@ -160,7 +160,7 @@ const Onboarding = () => {
 
         {step === 2 && userType === "brand" && (
            <BrandDetailsForm onComplete={handleDetailsComplete}  onSkip={handleSkip}/>
-        )}
+        )} 
       </div>
     </div>
   );

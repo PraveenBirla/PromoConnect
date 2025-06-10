@@ -1,11 +1,13 @@
 package profile.set.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import profile.set.model.Creator;
 import profile.set.repository.CreatorRepository;
 import profile.set.request.CreatorDetailRequest;
 
+@Service
 public class UserService {
      
   @Autowired
