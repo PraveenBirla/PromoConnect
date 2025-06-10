@@ -18,6 +18,7 @@ import login.login.Model.User;
 import login.login.Request.LogingRequest;
 import login.login.Request.SingupRequest;
 import login.login.Request.UpdateRequest;
+import login.login.Request.UserInfo;
 import login.login.Services.UserService;
 import login.login.component.JwtUtil;
 
@@ -51,7 +52,7 @@ public class UserController {
         
       if (user != null) { 
           Map<String ,String> response = new HashMap<>();
-          response.put("token" , jwtUtil.generateToken(user.getEmail())) ;
+          response.put("token" , jwtUtil.generateToken(user.getEmail() , user.getId())) ;
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -69,7 +70,7 @@ public class UserController {
           public ResponseEntity<Map<String,String>> loginUser(@RequestBody LogingRequest request){
             try{
                 User user = userService.UserLogin(request);
-                String token = jwtUtil.generateToken(user.getEmail())  ;
+                String token = jwtUtil.generateToken(user.getEmail(), user.getId())  ;
                  
                     Map<String , String> response = new HashMap<>() ;
                     response.put("token", token) ;
@@ -119,13 +120,42 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         String token = authHeader.substring(7);
-        if (jwtUtil.validateToken(token)) {
+        if (jwtUtil.validateToken(token)) { 
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     } 
+   
+    @PostMapping("/extract-user")
+    public ResponseEntity<?> extractUserFromToken(@RequestBody String token){
+           try{
+             if ( token != null && token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }  
 
-  }
+            if(!jwtUtil.validateToken(token)){
+              return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid token");
+            }
+
+
+            String email = jwtUtil.getUsernameFromToken(token);
+            Long userId = jwtUtil.getuserIdFromToken(token);
+  
+            UserInfo response = new UserInfo(email, userId) ;
+         
+             return  ResponseEntity.ok(response) ;
+
+           }
+           catch(Exception e){
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build() ;
+           }
+    }
+
+  }  
+
+
+
+
   
 
 

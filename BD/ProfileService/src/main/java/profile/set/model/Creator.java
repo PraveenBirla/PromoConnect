@@ -2,18 +2,20 @@ package profile.set.model;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
+
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Id;
 
 @Entity
 @Table(name="CreatorsDetail")
 public class Creator {
      
-  @Column(unique=true)
-  Long Id ;
    
+  @Id
+  Long Id ;
+  
   private String  displayName ;
   
   private String nich ;
