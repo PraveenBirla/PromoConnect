@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const BrandDetailsForm = ({ onComplete, onSkip }) => {
+const BrandDetailsForm = ({ onComplete, onSkip }) => { 
   const [formData, setFormData] = useState({
     companyName: "",
     website: "",

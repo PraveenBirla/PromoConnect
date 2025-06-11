@@ -2,7 +2,7 @@ package profile.set.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import profile.set.request.UserInfo;
 
@@ -10,6 +10,6 @@ import profile.set.request.UserInfo;
 public interface AuthClient {
      
 @PostMapping("/user/extract-user")
-UserInfo extractUserInfo(@RequestBody String token);
+UserInfo extractUserInfo(@RequestHeader("Authorization") String token);
      
 }
