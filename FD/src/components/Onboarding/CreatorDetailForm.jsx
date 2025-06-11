@@ -13,7 +13,7 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
     twitter: "",
     linkedin: "",  
     facebook: ""
-     
+      
   });  
 
   const [isLoading, setIsLoading] = useState(false);
@@ -57,22 +57,41 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setIsLoading(true);
 
-     
+     try{
     const dataToSend = { ...formData };
     if (formData.niche === "Other") {
       dataToSend.niche = formData.otherNiche;  
     }
-    delete dataToSend.otherNiche; 
-
-    console.log("Saving creator details:", dataToSend);
-    setTimeout(() => {
-      setIsLoading(false);
-      onComplete();
-    }, 1500);
+    delete dataToSend.otherNiche;  
+      console.log("sending data : " , formData )
+      const token = localStorage.getItem("token") ;
+    const response = await fetch("http://localhost:8086/user/creatorDetails" , {
+       method:"POST",
+       headers:{
+        "content-type":"application/json",
+         Authorization: `Bearer ${token}`
+       } 
+      ,  body: JSON.stringify(formData)
+    })
+     
+    if(response.ok){
+       onComplete() ;
+    } 
+    else{
+      console.error("Submission failed:", await response.text())
+    }
+}
+catch(error){
+    console.error("Error submitting creator details:", error)
+}
+finally{
+  setIsLoading(false);
+}
+     
   };
 
   return (
