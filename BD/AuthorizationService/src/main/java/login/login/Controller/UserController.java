@@ -127,7 +127,7 @@ public class UserController {
     } 
    
     @PostMapping("/extract-user")
-    public ResponseEntity<?> extractUserFromToken(@RequestBody String token){
+    public ResponseEntity<?> extractUserFromToken(@RequestHeader("Authorization") String token){
            try{
              if ( token != null && token.startsWith("Bearer ")) {
                 token = token.substring(7);
@@ -135,7 +135,7 @@ public class UserController {
 
             if(!jwtUtil.validateToken(token)){
               return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid token");
-            }
+            }  
 
 
             String email = jwtUtil.getUsernameFromToken(token);
