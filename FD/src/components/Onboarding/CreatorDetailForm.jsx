@@ -66,8 +66,19 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
     if (formData.niche === "Other") {
       dataToSend.niche = formData.otherNiche;  
     }
-    delete dataToSend.otherNiche;  
-      console.log("sending data : " , formData )
+    delete dataToSend.otherNiche;   
+
+
+    platforms.forEach(platform => {
+        // If the platform was NOT selected, set its link field to null or empty string
+        if (!dataToSend.platforms.includes(platform.id)) {
+          dataToSend[platform.id] = null; // Or ""
+        }
+      });
+
+
+
+      console.log("sending data : " , dataToSend )
       const token = localStorage.getItem("token") ;
     const response = await fetch("http://localhost:8086/user/creatorDetails" , {
        method:"POST",
@@ -75,7 +86,7 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
         "content-type":"application/json",
          Authorization: `Bearer ${token}`
        } 
-      ,  body: JSON.stringify(formData)
+      ,  body: JSON.stringify(dataToSend)
     })
      
     if(response.ok){

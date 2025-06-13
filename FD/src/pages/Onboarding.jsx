@@ -65,7 +65,7 @@ const Onboarding = () => {
 
   const handleDetailsComplete = () => {
     if (userType === "creator") {
-      navigate("/promoters");
+      navigate("/");
     } else {
       navigate("/advertisers");
     } 
