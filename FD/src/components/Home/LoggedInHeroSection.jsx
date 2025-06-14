@@ -28,7 +28,7 @@ const LoggedInHeroSection = () => {
          
 
           <h1
-            className={`text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl leading-tight transition-all duration-1000 delay-300 text-white ${
+            className={`text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-bold tracking-tight   leading-tight transition-all duration-1000 delay-300 text-white ${
               heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
@@ -39,7 +39,7 @@ const LoggedInHeroSection = () => {
           </h1>
 
           <p
-            className={`max-w-2xl text-xl text-white md:text-2xl font-light leading-relaxed transition-all duration-1000 delay-500 ${
+            className={`max-w-2xl text-base lg:text-2xl sm:text-lg text-white md:text-xl font-light leading-relaxed transition-all duration-1000 delay-500 ${
               heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
@@ -54,7 +54,7 @@ const LoggedInHeroSection = () => {
             <Link to="/promoters" className="w-full sm:w-auto">
               <button
                 type="button"
-                className="w-full sm:w-auto px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl inline-flex items-center justify-center"
+                className="  sm:w-auto px-5 py-3 text-sm  sm:text-base lg:text-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl inline-flex items-center justify-center"
               >
                 <Users className="mr-2 h-5 w-5" />
                 Find Creators
@@ -64,7 +64,7 @@ const LoggedInHeroSection = () => {
             <Link to="/advertisers" className="w-full sm:w-auto">
               <button
                 type="button"
-                className="w-full sm:w-auto px-8 py-4 text-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl inline-flex items-center justify-center"
+                className="   sm:w-auto px-5 py-3 text-sm sm:text-base lg:text-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl inline-flex items-center justify-center"
               >
                 <Building2 className="mr-2 h-5 w-5" />
                 For Brands

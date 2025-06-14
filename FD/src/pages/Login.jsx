@@ -62,10 +62,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[600px] flex items-center justify-center bg-gray-50 px-4">
+    <div className=" min-h-[500px] sm:min-h-[600px] flex items-center justify-center   bg-gradient-to-r from-purple-200 to-blue-400 px-4">
       <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-md border border-gray-200">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold">Log in to your account</h1>
+          <h1 className="text-base sm:text-xl lg:text-2xl font-bold">Log in to your account</h1>
           <p className="text-gray-500 text-sm mt-1">
             Enter your email and password to access your account
           </p>
