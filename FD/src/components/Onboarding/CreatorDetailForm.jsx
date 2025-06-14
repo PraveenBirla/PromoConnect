@@ -12,7 +12,7 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
     tiktok: "",  
     twitter: "",
     linkedin: "",  
-    facebook: ""
+    facebook: "" 
       
   });  
 
