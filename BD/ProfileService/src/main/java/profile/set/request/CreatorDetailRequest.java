@@ -8,12 +8,18 @@ public class CreatorDetailRequest {
       
     private String  displayName ;
   
-  private String nich ; 
+  private String niche ; 
 
   @ElementCollection 
   private List<String>  platforms ;
-  
-  private String instagram ;
+  private String bio ;
+  public String getBio() {
+    return bio;
+  }
+  public void setBio(String bio) {
+    this.bio = bio;
+  }
+  private String instagram ; 
   private String youtube;
   private String tiktok;
   private String twitter;
@@ -27,11 +33,11 @@ public class CreatorDetailRequest {
   public void setDisplayName(String displayName) {
     this.displayName = displayName;
   }
-  public String getNich() {
-    return nich;
+  public String getNiche() {
+    return niche;
   }
-  public void setNich(String nich) {
-    this.nich = nich;
+  public void setNich(String niche) {
+    this.niche = niche;
   }
   public List<String> getPlatforms() {
     return platforms;

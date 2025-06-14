@@ -16,12 +16,12 @@ public class UserService {
           if(creatorRepository.existsById(id)){
             return null ;
           } 
-      
+      else{
         Creator creator = new Creator() ;
          
          creator.setId(id) ;
          creator.setDisplayName(request.getDisplayName());
-         creator.setNich(request.getNich()) ;
+         creator.setNiche(request.getNiche()) ;
          creator.setYoutube(request.getYoutube()) ;
          creator.setPlatforms(request.getPlatforms());
          creator.setInstagram(request.getInstagram());
@@ -29,8 +29,11 @@ public class UserService {
          creator.setLinkedin(request.getLinkedin());
          creator.setTiktok(request.getTiktok());
          creator.setTwitter(request.getTwitter());
-     
+         creator.setBio(request.getBio()) ;
+
+         creatorRepository.save(creator) ;
          return creator ;
+        }
    }
        
 }
