@@ -25,7 +25,7 @@ const Navbar = () => {
       }`}
     >
       <div className="container flex h-16 items-center justify-between px-4 mx-auto">
-        {/* Logo */}
+        
         <Link to="/" className="flex items-center gap-3 group">
           <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-600 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:scale-110">
             <Megaphone className="h-5 w-5 text-white" />
@@ -41,7 +41,7 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Right content */}
+         
         <div className="flex items-center gap-8">
           <nav className="hidden md:flex items-center gap-8">
             <Link

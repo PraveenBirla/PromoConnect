@@ -2,11 +2,11 @@ import Index from './pages/Index'
 import Login from './pages/Login' 
 import Register from './pages/Register';
 import Onboarding from './pages/Onboarding'
+import CreatorProfile from './pages/CreatorProfile'
 import './App.css' ;
 import Footer from './components/layouts/Footer';
 import { BrowserRouter, Routes ,Route } from 'react-router-dom'
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 function App() {  
    
      
@@ -18,7 +18,8 @@ function App() {
          <Route path="/" element={<Index/>}/>
          <Route path="/login" element={<Login/>}/>
          <Route path="/register" element={<Register/>}/>
-         <Route path="/onboarding" element={<Onboarding/>}/> 
+         <Route path="/onboarding" element={<Onboarding/>}/>  
+         <Route path="/profile" element={<CreatorProfile/>}/>
       </Routes>
          <Footer/>
        

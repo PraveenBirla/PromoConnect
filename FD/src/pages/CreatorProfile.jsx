@@ -1,193 +1,204 @@
-import React from 'react';
+ import React, { useState, useEffect } from "react";
+import { Edit, ExternalLink, User, Globe, Award, Calendar, Verified, TrendingUp } from "lucide-react";
 
-const StitchDesign = () => {
-  return (
-    <div className="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style={{ fontFamily: '"Plus Jakarta Sans", "Noto Sans", sans-serif' }}>
-      <div className="layout-container flex h-full grow flex-col">
-        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf4] px-10 py-3">
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-4 text-[#0d141c]">
-              <div className="size-4">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z"
-                    fill="currentColor"
-                  ></path>
-                </svg>
-              </div>
-              <h2 className="text-[#0d141c] text-lg font-bold leading-tight tracking-[-0.015em]">CreatorConnect</h2>
-            </div>
-            <div className="flex items-center gap-9">
-              <a className="text-[#0d141c] text-sm font-medium leading-normal" href="#">
-                Home
-              </a>
-              <a className="text-[#0d141c] text-sm font-medium leading-normal" href="#">
-                Explore
-              </a>
-              <a className="text-[#0d141c] text-sm font-medium leading-normal" href="#">
-                About
-              </a>
-            </div>
+const CreatorProfile = () => {
+  const [profileData, setProfileData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const platforms = [
+    { id: "instagram", label: "Instagram", icon: "📷", color: "from-pink-500 to-rose-500" },
+    { id: "youtube", label: "YouTube", icon: "📺", color: "from-red-500 to-red-600" },
+    { id: "tiktok", label: "TikTok", icon: "🎵", color: "from-black to-gray-800" },
+    { id: "twitter", label: "Twitter/X", icon: "🐦", color: "from-blue-400 to-blue-600" },
+    { id: "linkedin", label: "LinkedIn", icon: "💼", color: "from-blue-600 to-blue-700" },
+    { id: "facebook", label: "Facebook", icon: "👥", color: "from-blue-500 to-indigo-600" },
+  ];
+
+  useEffect(() => {
+    const loadProfile = () => {
+      const mockData = {
+        displayName: "Alex Creator",
+        bio: "Tech enthusiast and content creator passionate about sharing the latest in gaming and technology. I create engaging content across multiple platforms to help people discover amazing tech products.",
+        niche: "Tech & Gaming",
+        platforms: ["instagram", "youtube", "tiktok"],
+        instagram: "https://instagram.com/alexcreator",
+        youtube: "https://youtube.com/alexcreator",
+        tiktok: "https://tiktok.com/@alexcreator",
+        twitter: null,
+        linkedin: null,
+        facebook: null,
+        engagement: "4.2%",
+        joinedDate: "January 2023",
+        location: "San Francisco, CA",
+        totalViews: "2.1M",
+        isVerified: true,
+      };
+
+      setTimeout(() => {
+        setProfileData(mockData);
+        setIsLoading(false);
+      }, 1000);
+    };
+
+    loadProfile();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 p-8">
+        <div className="animate-pulse space-y-6 max-w-6xl mx-auto">
+          <div className="h-48 bg-gradient-to-r from-gray-200 to-gray-300 rounded-2xl"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="h-32 bg-gray-200 rounded-2xl"></div>
+            <div className="h-32 bg-gray-200 rounded-2xl"></div>
+            <div className="h-32 bg-gray-200 rounded-2xl"></div>
           </div>
-          <div className="flex flex-1 justify-end gap-8">
-            <label className="flex flex-col min-w-40 !h-10 max-w-64">
-              <div className="flex w-full flex-1 items-stretch rounded-xl h-full">
-                <div
-                  className="text-[#49739c] flex border-none bg-[#e7edf4] items-center justify-center pl-4 rounded-l-xl border-r-0"
-                  data-icon="MagnifyingGlass"
-                  data-size="24px"
-                  data-weight="regular"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-                  </svg>
-                </div>
-                <input
-                  placeholder="Search"
-                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border-none bg-[#e7edf4] focus:border-none h-full placeholder:text-[#49739c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                  value=""
-                />
-              </div>
-            </label>
-            <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#0c7ff2] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
-              <span className="truncate">Get Started</span>
-            </button>
-          </div>
-        </header>
-        <div className="px-40 flex flex-1 justify-center py-5">
-          <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
-            <div className="flex flex-wrap justify-between gap-3 p-4">
-              <p className="text-[#0d141c] tracking-light text-[32px] font-bold leading-tight min-w-72">Find Your Perfect Creator</p>
-            </div>
-            <div className="px-4 py-3">
-              <label className="flex flex-col min-w-40 h-12 w-full">
-                <div className="flex w-full flex-1 items-stretch rounded-xl h-full">
-                  <div
-                    className="text-[#49739c] flex border-none bg-[#e7edf4] items-center justify-center pl-4 rounded-l-xl border-r-0"
-                    data-icon="MagnifyingGlass"
-                    data-size="24px"
-                    data-weight="regular"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                      <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-                    </svg>
-                  </div>
-                  <input
-                    placeholder="Search for creators"
-                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141c] focus:outline-0 focus:ring-0 border-none bg-[#e7edf4] focus:border-none h-full placeholder:text-[#49739c] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                    value=""
-                  />
-                </div>
-              </label>
-            </div>
-            <div className="flex gap-3 p-3 flex-wrap pr-4">
-              <button className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#e7edf4] pl-4 pr-2">
-                <p className="text-[#0d141c] text-sm font-medium leading-normal">Technology</p>
-                <div className="text-[#0d141c]" data-icon="CaretDown" data-size="20px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                  </svg>
-                </div>
-              </button>
-              <button className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#e7edf4] pl-4 pr-2">
-                <p className="text-[#0d141c] text-sm font-medium leading-normal">Lifestyle</p>
-                <div className="text-[#0d141c]" data-icon="CaretDown" data-size="20px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                  </svg>
-                </div>
-              </button>
-              <button className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#e7edf4] pl-4 pr-2">
-                <p className="text-[#0d141c] text-sm font-medium leading-normal">Art</p>
-                <div className="text-[#0d141c]" data-icon="CaretDown" data-size="20px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                  </svg>
-                </div>
-              </button>
-              <button className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#e7edf4] pl-4 pr-2">
-                <p className="text-[#0d141c] text-sm font-medium leading-normal">Music</p>
-                <div className="text-[#0d141c]" data-icon="CaretDown" data-size="20px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                  </svg>
-                </div>
-              </button>
-              <button className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#e7edf4] pl-4 pr-2">
-                <p className="text-[#0d141c] text-sm font-medium leading-normal">Travel</p>
-                <div className="text-[#0d141c]" data-icon="CaretDown" data-size="20px" data-weight="regular">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
-                  </svg>
-                </div>
-              </button>
-            </div>
-            <h2 className="text-[#0d141c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Featured Creators</h2>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
-              <div className="flex flex-col gap-3 pb-3">
-                <div
-                  className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9V31j_H1Kk7kqBiuHAPBUwTbYVoOqEjg0sNpU87Xuj1jDjRAxhpEa9114bEwUzayH5zO25P34kqPucIOrHDoeV5hi4F2ubgq6S4kNqz_ujyVLNYHc3wqpHZwQ9MVa0LwodSJECx9mrk2nH8VxEXQ8uhYeda5bata0Wu8ve8saeZf94-BjtF4vzo2HAqRmWrVZoT02bk8SiUsDXy8X0Mx5KGIX_gHS5nV1aQL7B6yPrge8swiiY9K_8iUxkDOLl-Jr01UZQudK1L7A")' }}
-                ></div>
-                <div>
-                  <p className="text-[#0d141c] text-base font-medium leading-normal">Ethan Carter</p>
-                  <p className="text-[#49739c] text-sm font-normal leading-normal">Tech enthusiast and gadget reviewer</p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 pb-3">
-                <div
-                  className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCMgReFa4D_1CZgXFCLLBVPDwgS_5IBAI4d4ZAMX2fSmAdccg6vR3TD5HymwBo_jbucXXgteU4S-SiPdynLdHw_Vikiq5cJF3vwoddyxNr0B6hfrNkvvti6Q2hIU06qcBBtPnYsOmmDR2sbnw1tA3VbkriObZmWqMJoCnmKvWBLAt0-2mcZJ7He7kBJvsv_uRAwdCxPNOboEWGVSO4mDnels1THPoVygc2HZPDMDfa08-l8zmdVYXanUgm9DDYcT2owdqKlxmMN1Ht1")' }}
-                ></div>
-                <div>
-                  <p className="text-[#0d141c] text-base font-medium leading-normal">Sophia Bennett</p>
-                  <p className="text-[#49739c] text-sm font-normal leading-normal">Lifestyle blogger and wellness coach</p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 pb-3">
-                <div
-                  className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCS4tPMKFSn5ABsltuZM6FgOY7ON2J2YOfupDGwXeFL5RYpVFatwdZQ0FUb3foxDmyl3qdAlTqVPIav9fXcyo2KuTqlEndrvxggqQ_YYTUnYmfxbFlKHT_eVAtVHIAAoJN8sSXVOZf1OCSgo9mTViD6ma47OUdlEm3D2l614gciunmQo-wSp5IqsN_pLZ1jCmHNrQUDzoFn5BZ4I5FKY5QeCZOD0vDYs0GljlNa78NP6Qnkq86Os4uDpu90u4nBiapJG0Pbp7wBhyBb")' }}
-                ></div>
-                <div>
-                  <p className="text-[#0d141c] text-base font-medium leading-normal">Liam Harper</p>
-                  <p className="text-[#49739c] text-sm font-normal leading-normal">Digital artist and illustrator</p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 pb-3">
-                <div
-                  className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                  style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAh4pMLGmRu5mqjlRkZ0tGycPHEoM9hMO9qkkzV_9XwHOhim5zqoE-XD91FLeCJy29rMVLPR1iMjgvzgLqEsh1wxl0VXv9Y_IxC617aXLpI66pCA6I8u1oKGxL1BIsHbULC6pgZeHgaYQD202iTbykCvoZlBkUOd9yEZx1mwhniBUJYzhhdsdl2ZilTpXBF2oVbe-a9KW3fqZOccJim-JP-9dFKKYKxpYwj0d_0-zErAA8dWdsHYb4DSNnfGwKWONVtcxhyUJD3gEiM")' }}
-                ></div>
-                <div>
-                  <p className="text-[#0d141c] text-base font-medium leading-normal">Olivia Hayes</p>
-                  <p className="text-[#49739c] text-sm font-normal leading-normal">Musician and composer</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="h-64 bg-gray-200 rounded-2xl"></div>
         </div>
-        <footer className="flex justify-center">
-          <div className="flex max-w-[960px] flex-1 flex-col">
-            <footer className="flex flex-col gap-6 px-5 py-10 text-center @container">
-              <div className="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
-                <a className="text-[#49739c] text-base font-normal leading-normal min-w-40" href="#">
-                  About
-                </a>
-                <a className="text-[#49739c] text-base font-normal leading-normal min-w-40" href="#">
-                  Contact
-                </a>
-                <a className="text-[#49739c] text-base font-normal leading-normal min-w-40" href="#">
-                  Privacy Policy
-                </a>
+      </div>
+    );
+  }
+
+  if (!profileData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 p-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">Profile Not Found</h1>
+          <p className="text-gray-600">Unable to load creator profile.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const activePlatforms = platforms.filter(
+    (platform) => profileData.platforms.includes(platform.id) && profileData[platform.id]
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+      <div className="relative h-64 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-blue-900/20"></div>
+        <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-float"></div>
+        <div className="absolute top-20 right-16 w-12 h-12 bg-white/10 rounded-full animate-float" style={{ animationDelay: "1s" }}></div>
+        <div className="absolute bottom-16 left-1/4 w-16 h-16 bg-white/10 rounded-full animate-float" style={{ animationDelay: "2s" }}></div>
+      </div>
+
+      <div className="container -mt-32 px-4 mx-auto relative z-10 max-w-6xl space-y-8">
+        {/* Profile Card */}
+        <div className="bg-white/90 p-8 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col md:flex-row items-center gap-8">
+          <div className="relative group">
+            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 via-blue-500 to-indigo-500 flex items-center justify-center shadow-2xl">
+              <User className="h-16 w-16 text-white" />
+            </div>
+            {profileData.isVerified && (
+              <div className="absolute -bottom-2 -right-2 bg-blue-500 text-white rounded-full p-2 shadow-lg">
+                <Verified className="h-4 w-4 fill-current" />
               </div>
-              <p className="text-[#49739c] text-base font-normal leading-normal">@2024 CreatorConnect. All rights reserved.</p>
-            </footer>
+            )}
           </div>
-        </footer>
+
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              {profileData.displayName}
+            </h1>
+            <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-4 text-gray-600">
+              <span className="flex items-center gap-2">
+                <Globe className="h-4 w-4" /> Content Creator
+              </span>
+              <span className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" /> Joined {profileData.joinedDate}
+              </span>
+            </div>
+            <div className="mt-4 inline-block text-sm px-4 py-2 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 rounded-full">
+              {profileData.niche}
+            </div>
+          </div>
+
+          <button className="px-8 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl hover:from-purple-700 hover:to-blue-700 flex items-center gap-2">
+            <Edit className="h-4 w-4" />
+            Edit Profile
+          </button>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              icon: <Award className="h-6 w-6 text-white" />,
+              label: "Engagement Rate",
+              value: profileData.engagement,
+              bg: "from-green-50 to-emerald-50",
+              color: "from-green-500 to-emerald-500",
+              textColor: "text-green-600",
+            },
+            {
+              icon: <Globe className="h-6 w-6 text-white" />,
+              label: "Active Platforms",
+              value: activePlatforms.length,
+              bg: "from-blue-50 to-indigo-50",
+              color: "from-blue-500 to-indigo-500",
+              textColor: "text-blue-600",
+            },
+            {
+              icon: <TrendingUp className="h-6 w-6 text-white" />,
+              label: "Total Views",
+              value: profileData.totalViews,
+              bg: "from-purple-50 to-pink-50",
+              color: "from-purple-500 to-pink-500",
+              textColor: "text-purple-600",
+            },
+          ].map((item, i) => (
+            <div key={i} className={`rounded-2xl p-6 text-center bg-gradient-to-br ${item.bg} transition-all duration-300 shadow hover:shadow-xl`}>
+              <div className={`w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center`}>
+                {item.icon}
+              </div>
+              <div className="text-3xl font-bold text-gray-800">{item.value}</div>
+              <div className={`text-sm font-medium ${item.textColor}`}>{item.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Bio Section */}
+        <div className="p-6 bg-white/80 rounded-2xl shadow-xl backdrop-blur-xl">
+          <h2 className="text-2xl font-bold mb-2 text-gray-800">About Me</h2>
+          <p className="text-gray-700 text-lg">{profileData.bio}</p>
+        </div>
+
+        {/* Social Media Section */}
+        {activePlatforms.length > 0 && (
+          <div className="p-6 bg-white/80 rounded-2xl shadow-xl backdrop-blur-xl">
+            <h2 className="text-2xl font-bold mb-1 text-gray-800">Social Media</h2>
+            <p className="text-gray-600 mb-6">Connect with me on these platforms</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {activePlatforms.map((platform) => (
+                <div key={platform.id} className="p-6 border rounded-2xl bg-white/50 hover:shadow-xl flex justify-between items-center">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${platform.color} flex items-center justify-center`}>
+                      <span className="text-white text-lg">{platform.icon}</span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-800">{platform.label}</div>
+                      <div className="text-sm text-green-600">✓ Connected</div>
+                    </div>
+                  </div>
+                  <a
+                    href={profileData[platform.id]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm px-4 py-2 border rounded-xl flex items-center gap-2 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:text-white transition"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Visit
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default StitchDesign;
+export default CreatorProfile;
