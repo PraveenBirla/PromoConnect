@@ -56,8 +56,7 @@ const Index = () => {
   return(
    <>
    { isLoggedIn ?<Navbar/>:<LoginNavbar/>} 
-  
-    { isLoggedIn ?<LoggedInHeroSection/>:<HeroSection/>}
+  { isLoggedIn ?<LoggedInHeroSection/>:<HeroSection/>}
    <FeaturesSection/>
    <CTAsection/> 
    </>
