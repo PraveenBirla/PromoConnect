@@ -22,7 +22,7 @@ const Navbar = () => {
         isScrolled
           ? "bg-white/90 backdrop-blur-xl border-b border-gray-200/50 shadow-lg"
           : "bg-gradient-to-br from-purple-900/10 via-blue-900/10 to-indigo-900/10 backdrop-blur-sm"
-      }`}
+      }`} 
     >
       <div className="container flex h-16 items-center justify-between px-4 mx-auto">
         
