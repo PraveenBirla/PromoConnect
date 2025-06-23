@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import { useScrollAnimation } from "../hooks/useScrollanimation";
 import {
   Users,
   Building2,

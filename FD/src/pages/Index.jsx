@@ -2,7 +2,7 @@ import HeroSection from "../components/Home/HeroSection";
 import FeaturesSection from "../components/Home/FeaturesSection";
 import CTAsection from "../components/Home/CTAsection";
 import LoggedInHeroSection from "../components/Home/LoggedInHeroSection";
-import Footer from "../components/layouts/Footer";
+import PersonalizedRecommendations from "../components/Home/PersionisedRecommendation";
 import { useEffect , useState} from "react";
 import Navbar from "../components/layouts/Navbar";
 import LoginNavbar from "../components/layouts/LogedInNavbar";
@@ -58,6 +58,7 @@ const Index = () => {
    { isLoggedIn ?<Navbar/>:<LoginNavbar/>} 
   { isLoggedIn ?<LoggedInHeroSection/>:<HeroSection/>}
    <FeaturesSection/>
+   
    <CTAsection/> 
    </>
 
