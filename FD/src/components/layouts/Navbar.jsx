@@ -65,11 +65,9 @@ const Navbar = () => {
 
           <Link to="/profile">
             <button
-              className={`relative overflow-hidden group transition-all duration-300 hover:scale-105 ${
-                isScrolled
-                  ? "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl"
-                  : "bg-white/20 backdrop-blur-md border border-white/30 text-white hover:bg-white/30 hover:border-white/50"
-              } rounded-xl px-6 py-2`}
+              className={`relative overflow-hidden group transition-all duration-300 hover:scale-105  
+                  bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl
+                   rounded-xl px-6 py-2`}
             >
               <div className="flex items-center gap-2 relative z-10">
                 <div className="p-1 rounded-lg bg-white/20 group-hover:bg-white/30 transition-all duration-300">
