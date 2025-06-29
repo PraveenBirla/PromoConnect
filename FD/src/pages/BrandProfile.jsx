@@ -1,214 +1,283 @@
-import { useState } from "react";
-import { 
-  Building2, 
-  Globe, 
-  Users, 
-  Target, 
-  User, 
-  MapPin, 
-  Briefcase, 
-  DollarSign, 
-  Edit3, 
-  Save, 
-  X,
-  Mail
-} from "lucide-react";
+import React, { useState } from "react";
+import { Edit3, Save, X, Building2, Globe, Users, MapPin, Target, User } from "lucide-react";
 
-const BrandProfilePage = () => {
-  const [brandData, setBrandData] = useState({
-    companyName: "TechFlow Solutions",
-    website: "https://techflowsolutions.com",
-    description: "AI-powered business automation solutions for enterprises.",
+const BrandProfile = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    companyName: "TechCorp Inc",
+    website: "https://techcorp.com",
+    description:
+      "Leading technology company focused on innovative solutions for modern businesses. We specialize in AI-powered tools and enterprise software.",
     industry: "Technology",
-    companySize: "51-200 employees",
-    budget: "$10,000 - $25,000",
-    campaignGoals: "Brand awareness, lead generation, thought leadership in AI automation.",
+    companySize: "201-500 employees",
+    campaignGoals:
+      "Brand awareness and lead generation through content marketing and influencer partnerships",
     contactPerson: "Sarah Johnson",
     position: "Marketing Director",
-    location: "San Francisco, CA"
+    location: "San Francisco, CA",
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editData, setEditData] = useState(brandData);
+  const industries = [
+    "Technology",
+    "Fashion & Beauty",
+    "Food & Beverage",
+    "Health & Fitness",
+    "Travel & Tourism",
+    "Education",
+    "Finance",
+    "Entertainment",
+    "Automotive",
+    "Real Estate",
+    "Other",
+  ];
 
-  const handleEdit = () => {
-    setIsEditing(true);
-    setEditData(brandData);
-  };
+  const companySizes = [
+    "1-10 employees",
+    "11-50 employees",
+    "51-200 employees",
+    "201-500 employees",
+    "500+ employees",
+  ];
 
-  const handleSave = () => {
-    setBrandData(editData);
-    setIsEditing(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsEditing(false);
+      alert("Profile updated successfully!");
+    }, 1500);
   };
 
   const handleCancel = () => {
-    setEditData(brandData);
     setIsEditing(false);
+    alert("Changes cancelled");
   };
 
-  const ProfileCard = ({ icon: Icon, title, value, color = "blue", editable = false, field, type = "text" }) => (
-    <div className="bg-white rounded-lg p-4 shadow-md border border-gray-100">
-      <div className="flex items-center gap-2 mb-3">
-        <div className={`w-8 h-8 bg-${color}-100 rounded-lg flex items-center justify-center`}>
-          <Icon className={`w-4 h-4 text-${color}-600`} />
-        </div>
-        <h3 className="font-semibold text-gray-800 text-sm">{title}</h3>
-      </div>
-      
-      {isEditing && editable ? (
-        type === "textarea" ? (
-          <textarea
-            value={editData[field]}
-            onChange={(e) => setEditData({ ...editData, [field]: e.target.value })}
-            className="w-full p-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm min-h-[60px] resize-none"
-          />
-        ) : (
-          <input
-            type={type}
-            value={editData[field]}
-            onChange={(e) => setEditData({ ...editData, [field]: e.target.value })}
-            className="w-full p-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-          />
-        )
+  const renderField = (label, value, key, required = false, type = "text", icon = null) => (
+    <div className="space-y-2">
+      <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+        {icon}
+        {label}
+        {required && <span className="text-red-500">*</span>}
+      </label>
+      {isEditing ? (
+        <input
+          type={type}
+          value={formData[key]}
+          onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+          required={required}
+          className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       ) : (
-        <p className="text-gray-700 text-sm leading-relaxed">{value || "Not specified"}</p>
+        <div className="p-3 bg-gray-50 rounded-lg text-sm font-medium text-gray-700 border border-gray-200">
+          {value}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderSelectField = (label, key, options, icon = null) => (
+    <div className="space-y-2">
+      <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+        {icon}
+        {label}
+      </label>
+      {isEditing ? (
+        <select
+          value={formData[key]}
+          onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+          className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Select...</option>
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <div className="p-3 bg-gray-50 rounded-lg text-sm font-medium text-gray-700 border border-gray-200">
+          {formData[key]}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderTextareaField = (label, key, minHeight = "100px", icon = null) => (
+    <div className="space-y-2">
+      <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+        {icon}
+        {label}
+      </label>
+      {isEditing ? (
+        <textarea
+          value={formData[key]}
+          onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+          className={`w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[${minHeight}] resize-none`}
+        />
+      ) : (
+        <div className={`p-3 bg-gray-50 rounded-lg text-sm font-medium text-gray-700 border border-gray-200 min-h-[${minHeight}]`}>
+          {formData[key]}
+        </div>
       )}
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header Section */}
-        <div className="bg-white rounded-lg shadow-md border border-gray-100 p-6 mb-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-800">{brandData.companyName}</h1>
-                <div className="flex flex-wrap items-center gap-3 text-xs text-gray-600 mt-1">
-                  <span className="flex items-center gap-1">
-                    <Users className="w-3 h-3" />
-                    {brandData.companySize}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-4">
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-2 pt-8">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Brand Profile
+          </h1>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Manage your brand information and campaign details to create meaningful partnerships
+          </p>
+        </div>
+
+        {/* Profile Overview Card */}
+        <div className="overflow-hidden shadow-xl rounded-lg border-0 bg-gradient-to-r from-blue-600 to-indigo-600">
+          <div className="p-8 text-white">
+            <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
+              <div className="flex-1 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                    <Building2 className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-bold">{formData.companyName}</h2>
+                    <p className="text-blue-100">{formData.position} • {formData.contactPerson}</p>
+                  </div>
+                </div>
+                
+                <p className="text-blue-50 leading-relaxed max-w-3xl">
+                  {formData.description}
+                </p>
+                
+                <div className="flex flex-wrap gap-3">
+                  <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-white/20 text-white border-white/30 hover:bg-white/30">
+                    <Globe className="w-3 h-3 mr-1" />
+                    {formData.website}
                   </span>
-                  <span>{brandData.industry}</span>
+                  <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-white/20 text-white border-white/30 hover:bg-white/30">
+                    <Building2 className="w-3 h-3 mr-1" />
+                    {formData.industry}
+                  </span>
+                  <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-white/20 text-white border-white/30 hover:bg-white/30">
+                    <Users className="w-3 h-3 mr-1" />
+                    {formData.companySize}
+                  </span>
+                  <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-white/20 text-white border-white/30 hover:bg-white/30">
+                    <MapPin className="w-3 h-3 mr-1" />
+                    {formData.location}
+                  </span>
                 </div>
               </div>
+
+              <button
+                onClick={() => setIsEditing(!isEditing)}
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 bg-white text-blue-600 hover:bg-blue-50 font-semibold shadow-lg"
+              >
+                {isEditing ? (
+                  <>
+                    <X className="w-4 h-4" />
+                    Cancel
+                  </>
+                ) : (
+                  <>
+                    <Edit3 className="w-4 h-4" />
+                    Edit Profile
+                  </>
+                )}
+              </button>
             </div>
-            
-            <div className="flex gap-2">
-              {isEditing ? (
-                <>
+          </div>
+        </div>
+
+        {/* Profile Form */}
+        <div className="shadow-xl border-0 rounded-lg bg-white">
+          <div className="bg-gray-50 border-b p-6">
+            <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+              <Building2 className="w-6 h-6 text-blue-600" />
+              Company Information
+            </h3>
+          </div>
+          <div className="p-8">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Basic Information */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {renderField("Company Name", formData.companyName, "companyName", true, "text", <Building2 className="w-4 h-4 text-blue-600" />)}
+                {renderField("Website", formData.website, "website", false, "url", <Globe className="w-4 h-4 text-blue-600" />)}
+              </div>
+
+              {renderTextareaField("Company Description", "description", "120px", <Building2 className="w-4 h-4 text-blue-600" />)}
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {renderSelectField("Industry", "industry", industries, <Building2 className="w-4 h-4 text-blue-600" />)}
+                {renderSelectField("Company Size", "companySize", companySizes, <Users className="w-4 h-4 text-blue-600" />)}
+              </div>
+
+              <div className="border-t my-8"></div>
+
+              {/* Contact Information */}
+              <div className="space-y-6">
+                <h4 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                  <User className="w-5 h-5 text-blue-600" />
+                  Contact Information
+                </h4>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {renderField("Contact Person", formData.contactPerson, "contactPerson", true, "text", <User className="w-4 h-4 text-blue-600" />)}
+                  {renderField("Position/Title", formData.position, "position", false, "text", <User className="w-4 h-4 text-blue-600" />)}
+                  {renderField("Location", formData.location, "location", false, "text", <MapPin className="w-4 h-4 text-blue-600" />)}
+                </div>
+              </div>
+
+              <div className="border-t my-8"></div>
+
+              {/* Campaign Goals */}
+              <div className="space-y-6">
+                <h4 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                  <Target className="w-5 h-5 text-blue-600" />
+                  Campaign Goals
+                </h4>
+                {renderTextareaField("Campaign Goals & Objectives", "campaignGoals", "100px", <Target className="w-4 h-4 text-blue-600" />)}
+              </div>
+
+              {isEditing && (
+                <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
                   <button
-                    onClick={handleSave}
-                    className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors text-sm"
+                    type="submit"
+                    disabled={isLoading}
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold shadow-lg disabled:opacity-50"
                   >
-                    <Save className="w-3 h-3" />
-                    Save
+                    {isLoading ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4" />
+                        Save Changes
+                      </>
+                    )}
                   </button>
                   <button
+                    type="button"
                     onClick={handleCancel}
-                    className="flex items-center gap-2 border border-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-50 transition-colors text-sm"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 border border-gray-300 bg-white hover:bg-gray-100 text-gray-700 font-semibold"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-4 h-4" />
                     Cancel
                   </button>
-                </>
-              ) : (
-                <button
-                  onClick={handleEdit}
-                  className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm"
-                >
-                  <Edit3 className="w-3 h-3" />
-                  Edit
-                </button>
+                </div>
               )}
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          {/* Company Info */}
-          <div className="md:col-span-2">
-            <ProfileCard
-              icon={Briefcase}
-              title="Description"
-              value={brandData.description}
-              color="blue"
-              editable={true}
-              field="description"
-              type="textarea"
-            />
-          </div>
-          
-          <ProfileCard
-            icon={Globe}
-            title="Website"
-            value={brandData.website}
-            color="green"
-            editable={true}
-            field="website"
-            type="url"
-          />
-          
-          <ProfileCard
-            icon={MapPin}
-            title="Location"
-            value={brandData.location}
-            color="red"
-            editable={true}
-            field="location"
-          />
-          
-          <ProfileCard
-            icon={DollarSign}
-            title="Budget"
-            value={brandData.budget}
-            color="purple"
-            editable={true}
-            field="budget"
-          />
-          
-          <ProfileCard
-            icon={Target}
-            title="Goals"
-            value={brandData.campaignGoals}
-            color="orange"
-            editable={true}
-            field="campaignGoals"
-            type="textarea"
-          />
-          
-          <ProfileCard
-            icon={User}
-            title="Contact Person"
-            value={brandData.contactPerson}
-            color="indigo"
-            editable={true}
-            field="contactPerson"
-          />
-          
-          <ProfileCard
-            icon={Briefcase}
-            title="Position"
-            value={brandData.position}
-            color="teal"
-            editable={true}
-            field="position"
-          />
-        </div>
-
-        {/* Quick Actions */}
-        <div className="bg-white rounded-lg shadow-md border border-gray-100 p-4">
-          <h3 className="font-semibold text-gray-800 mb-3 text-sm">Quick Actions</h3>
-          <div className="flex gap-2">
-            <button className="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-2 rounded-md hover:bg-blue-100 transition-colors text-sm">
-              <Mail className="w-3 h-3" />
-              Send Email
-            </button>
+            </form>
           </div>
         </div>
       </div>
@@ -216,4 +285,4 @@ const BrandProfilePage = () => {
   );
 };
 
-export default BrandProfilePage;
+export default BrandProfile;
