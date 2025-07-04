@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import  useScrollAnimation  from "../../hooks/useScrollAnimation";
+import  {useScrollAnimation}  from "../../hooks/useScrollAnimation";
 
 import { ArrowRight } from "lucide-react";
 
