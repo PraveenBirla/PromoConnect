@@ -2,6 +2,7 @@ import React, { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CreatorDetailsForm from "../components/Onboarding/CreatorDetailForm";
 import BrandDetailsForm from "../components/Onboarding/BrandDetailsForm";
+
 const Onboarding = () => {
   const [step, setStep] = useState(1);
   const [userType, setUserType] = useState("");
