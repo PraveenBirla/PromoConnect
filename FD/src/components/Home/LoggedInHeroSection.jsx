@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Users, Building2, Sparkles } from "lucide-react";
-import { useScrollAnimation } from "../../hooks/useScrollanimation";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 const LoggedInHeroSection = () => {
   const [heroRef, heroVisible] = useScrollAnimation(0.2);

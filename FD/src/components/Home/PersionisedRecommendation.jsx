@@ -1,4 +1,4 @@
-import { useScrollAnimation } from "../../hooks/useScrollanimation";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 import { Users, Building2, Star, MapPin, Eye, Heart, MessageCircle, TrendingUp, Camera, Video, Palette ,Music } from "lucide-react";
 import { useState } from "react";
 

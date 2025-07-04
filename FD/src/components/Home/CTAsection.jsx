@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { useScrollAnimation } from "../../hooks/useScrollanimation";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 const CTAsection = () => {
   const [ctaRef, ctaVisible] = useScrollAnimation(0.2);
