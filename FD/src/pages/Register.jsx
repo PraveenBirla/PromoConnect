@@ -30,7 +30,7 @@ const Register = () => {
     const userData = { username, email, password };
 
     try {
-      const response = await fetch("http://localhost:8085/user/signup", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/signup`, {
         method: "POST", 
         headers: {
           "Content-Type": "application/json",
@@ -64,6 +64,7 @@ const Register = () => {
         }, 1500);
       } 
     } catch (error) {  
+      console.error("Signup error:", error);
       setIsSuccess(false);
       setMessage("Something went wrong. Please try again.");
     } finally {
