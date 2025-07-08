@@ -3,18 +3,7 @@ import { Megaphone, ArrowRight, Mail, Twitter, Instagram, Linkedin, HelpCircle }
 import { useState } from "react";
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setEmail("");
-      setTimeout(() => setSubscribed(false), 3000);
-    }
-  };
 
   const socialLinks = [
     { icon: Twitter, url: "https://twitter.com/promoconnect", name: "Twitter" },
@@ -64,37 +53,6 @@ const Footer = () => {
             <p className="leading-relaxed text-sm sm:text-base">
               Connecting creators with brands to amplify each other's reach.
             </p>
-            
-            {/* Newsletter Subscription */}
-            <div className="mt-4">
-              <h4 className="text-sm font-medium mb-2 text-primary">Stay updated</h4>
-              {subscribed ? (
-                <div className="px-3 py-2 bg-green-100 text-green-800 rounded-md text-sm">
-                  Thanks for subscribing!
-                </div>
-              ) : (
-                <form onSubmit={handleSubscribe} className="flex gap-2">
-                  <div className="relative flex-1">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Your email"
-                      className="w-full pl-10 pr-4 py-2 bg-background rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-transparent text-sm"
-                      required
-                    />
-                  </div>
-                  <button 
-                    type="submit"
-                    className="px-3 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors flex items-center gap-1 text-sm"
-                  >
-                    Join
-                    <ArrowRight className="h-4 w-4" />
-                  </button>
-                </form>
-              )}
-            </div>
 
             {/* Social Links */}
             <div className="flex gap-4 mt-4">
@@ -149,7 +107,7 @@ const Footer = () => {
             <p className="text-xs sm:text-sm text-center md:text-left">
               &copy; {new Date().getFullYear()} PromoConnect. All rights reserved.
             </p>
-            
+
             <div className="flex gap-4">
               <Link 
                 to="/terms" 
