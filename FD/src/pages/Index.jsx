@@ -18,7 +18,7 @@ const Index = () => {
       return ; 
   } 
 
-    fetch("http://localhost:8085/user/validate-token", {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/user/validate-token`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then((res )=> {
