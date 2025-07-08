@@ -28,7 +28,7 @@ const LoggedInHeroSection = () => {
          
 
           <h1
-            className={`text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-bold tracking-tight   leading-tight transition-all duration-1000 delay-300 text-white ${
+            className={`text-6xl sm:text-4xl md:text-5xl lg:text-8xl font-bold tracking-tight   leading-tight transition-all duration-1000 delay-300 text-white ${
               heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
@@ -39,10 +39,10 @@ const LoggedInHeroSection = () => {
           </h1>
 
           <p
-            className={`max-w-2xl text-base lg:text-2xl sm:text-lg text-white md:text-xl font-light leading-relaxed transition-all duration-1000 delay-500 ${
+            className={`max-w-2xl text-xl lg:text-2xl sm:text-lg text-white md:text-xl font-light leading-relaxed transition-all duration-1000 delay-500 ${
               heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
-          >
+          > 
             Select whether you're looking for creators to promote your brand or if you're a creator seeking brand partnerships.
           </p>
 
