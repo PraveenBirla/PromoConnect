@@ -24,14 +24,15 @@ const LoginNavbar = () => {
           : "bg-gradient-to-br from-purple-900/10 via-blue-900/10 to-indigo-900/10 backdrop-blur-sm"
       }`}
     >
-      <div className="container flex h-16 items-center justify-between px-4 mx-auto">
+      <div className="container flex h-10 sm:h-16 items-center justify-between px-2 sm:px-4 mx-auto">
+        
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-600 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:scale-110">
-            <Megaphone className="h-5 w-5 text-white" />
+        <Link to="/" className="flex items-center gap-1 sm:gap-3 group">
+          <div className="p-1.5 sm:p-2 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-600 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:scale-110">
+            <Megaphone className="h-2 w-2 sm:h-5 sm:w-5 text-white" />
           </div>
           <span
-            className={`font-bold text-xl transition-all duration-300 ${
+            className={`font-bold text-xs sm:text-xl transition-all duration-300 ${
               isScrolled
                 ? "bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent"
                 : "text-white drop-shadow-lg"
@@ -42,11 +43,13 @@ const LoginNavbar = () => {
         </Link>
 
         {/* Navigation */}
-        <div className="flex items-center gap-8">
-          <nav className="hidden md:flex items-center gap-8">
+        <div className="flex items-center gap-4 sm:gap-8">
+          
+          {/* Desktop Nav Link */}
+          <nav className="hidden md:flex items-center gap-6 sm:gap-8">
             <Link
               to="/how-it-works"
-              className={`transition-all duration-300 font-medium relative group ${
+              className={`transition-all duration-300 text-sm sm:text-base font-medium relative group ${
                 isScrolled
                   ? "text-gray-700 hover:text-purple-600"
                   : "text-white/90 hover:text-white"
@@ -63,20 +66,32 @@ const LoginNavbar = () => {
             </Link>
           </nav>
 
-          {/* Get Started Button */}
-          <Link to="/register">
-             <button
-    className={`relative overflow-hidden group transition-all duration-300 hover:scale-105 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl rounded-xl px-6 py-2`}
-  >
-    <div className="flex items-center gap-2 relative z-10">
-      <span className="font-medium">Get Started</span>
-      <Sparkles className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
-    </div>
-    <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-blue-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
-    {isActivePage("/register") && (
-      <div className="absolute -bottom-1 left-2 right-2 h-0.5 bg-gradient-to-r from-purple-300 to-blue-300"></div>
-    )}
-  </button>
+          {/* Show "How It Works" on small screens only */}
+          <Link
+            to="/how-it-works"
+            className={`block md:hidden text-xs font-medium transition-all duration-300 ${
+              isScrolled
+                ? "text-gray-700 hover:text-purple-600"
+                : "text-white/90 hover:text-white"
+            }`}
+          >
+            How It Works
+          </Link>
+
+          {/* Get Started Button (only show on sm and up) */}
+          <Link to="/register" className="hidden sm:block">
+            <button
+              className={`relative overflow-hidden group transition-all duration-300 hover:scale-105 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl rounded-lg sm:rounded-xl px-4 py-1.5 sm:px-6 sm:py-2 text-sm sm:text-base`}
+            >
+              <div className="flex items-center gap-1.5 sm:gap-2 relative z-10">
+                <span className="font-medium">Get Started</span>
+                <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-blue-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg sm:rounded-xl"></div>
+              {isActivePage("/register") && (
+                <div className="absolute -bottom-1 left-2 right-2 h-0.5 bg-gradient-to-r from-purple-300 to-blue-300"></div>
+              )}
+            </button>
           </Link>
         </div>
       </div>
