@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import { Megaphone, User, Sparkles } from "lucide-react";
+import { Megaphone, User, Sparkles, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -16,22 +17,26 @@ const Navbar = () => {
 
   const isActivePage = (path) => location.pathname === path;
 
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
+
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${
         isScrolled
           ? "bg-white/90 backdrop-blur-xl border-b border-gray-200/50 shadow-lg"
           : "bg-gradient-to-br from-purple-900/10 via-blue-900/10 to-indigo-900/10 backdrop-blur-sm"
-      }`} 
+      }`}
     >
-      <div className="container flex h-16 items-center justify-between px-4 mx-auto">
-        
-        <Link to="/" className="flex items-center gap-3 group">
+      <div className="container flex h-10 sm:h-16 items-center justify-between px-2 sm:px-4 mx-auto">
+        <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
           <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-600 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:scale-110">
-            <Megaphone className="h-5 w-5 text-white" />
+            <Megaphone className="h-2 sm:h-5 w-2 sm:w-5 text-white" />
           </div>
           <span
-            className={`font-bold text-xl transition-all duration-300 ${
+            className={`font-bold text-xs sm:text-xl transition-all duration-300 ${
               isScrolled
                 ? "bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent"
                 : "text-white drop-shadow-lg"
@@ -41,8 +46,33 @@ const Navbar = () => {
           </span>
         </Link>
 
+        {/* Mobile menu button */}
+        <div className="flex md:hidden items-center gap-2 ">
+          <Link to="/profile" className="md:hidden">
+            <User
+              className={`h-4 w-4 ${
+                isScrolled ? "text-gray-700" : "text-white"
+              }`}
+            />
+          </Link>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`p-1 rounded-lg ${
+              isScrolled
+                ? "text-gray-700 hover:bg-gray-100"
+                : "text-white hover:bg-white/10"
+            }`}
+          >
+            {mobileMenuOpen ? (
+              <X className="h-4 w-4" />
+            ) : (
+              <Menu className="h-4 w-4" />
+            )}
+          </button>
+        </div>
+
          
-        <div className="flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-8">
           <nav className="hidden md:flex items-center gap-8">
             <Link
               to="/how-it-works"
@@ -81,6 +111,47 @@ const Navbar = () => {
                 <div className="absolute -bottom-1 left-2 right-2 h-0.5 bg-gradient-to-r from-purple-300 to-blue-300"></div>
               )}
             </button>
+          </Link>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      <div
+        className={`md:hidden transition-all duration-300 overflow-hidden ${
+          mobileMenuOpen
+            ? "max-h-96 opacity-100"
+            : "max-h-0 opacity-0"
+        } ${
+          isScrolled ? "bg-white" : "bg-gradient-to-b from-purple-900/90 to-blue-900/90"
+        }`}
+      >
+        <div className="container mx-auto px-4 py-3 flex flex-col gap-4">
+          <Link
+            to="/how-it-works"
+            className={`py-2 px-3 rounded-lg transition-all duration-300 ${
+              isScrolled
+                ? "text-gray-700 hover:bg-gray-100"
+                : "text-white hover:bg-white/10"
+            } ${
+              isActivePage("/how-it-works") &&
+              (isScrolled ? "bg-gray-100" : "bg-white/10")
+            }`}
+          >
+            How It Works
+          </Link>
+          
+          <Link
+            to="/profile"
+            className={`py-2 px-3 rounded-lg transition-all duration-300 ${
+              isScrolled
+                ? "text-gray-700 hover:bg-gray-100"
+                : "text-white hover:bg-white/10"
+            } ${
+              isActivePage("/profile") &&
+              (isScrolled ? "bg-gray-100" : "bg-white/10")
+            }`}
+          >
+            Profile
           </Link>
         </div>
       </div>
