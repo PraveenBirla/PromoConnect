@@ -24,7 +24,7 @@ const LoginNavbar = () => {
           : "bg-gradient-to-br from-purple-900/10 via-blue-900/10 to-indigo-900/10 backdrop-blur-sm"
       }`}
     >
-      <div className="container flex h-10 sm:h-16 items-center justify-between px-2 sm:px-4 mx-auto">
+      <div className="container flex h-13 sm:h-16 items-center justify-between px-2 sm:px-4 mx-auto">
         
         {/* Logo */}
         <Link to="/" className="flex items-center gap-1 sm:gap-3 group">
@@ -49,7 +49,7 @@ const LoginNavbar = () => {
           <nav className="hidden md:flex items-center gap-6 sm:gap-8">
             <Link
               to="/how-it-works"
-              className={`transition-all duration-300 text-base sm:text-base font-medium relative group ${
+              className={`transition-all duration-300  sm:text-base font-large relative group ${
                 isScrolled
                   ? "text-gray-700 hover:text-purple-600"
                   : "text-white/90 hover:text-white"
@@ -69,7 +69,7 @@ const LoginNavbar = () => {
           {/* Show "How It Works" on small screens only */}
           <Link
             to="/how-it-works"
-            className={`block md:hidden text-xs font-medium transition-all duration-300 ${
+            className={`block md:hidden text-base sm:text-xs font-medium transition-all duration-300 ${
               isScrolled
                 ? "text-gray-700 hover:text-purple-600"
                 : "text-white/90 hover:text-white"
