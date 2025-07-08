@@ -6,6 +6,7 @@ import PersonalizedRecommendations from "../components/Home/PersionisedRecommend
 import { useEffect , useState} from "react";
 import Navbar from "../components/layouts/Navbar";
 import LoginNavbar from "../components/layouts/LogedInNavbar";
+import LoggedInHowItWorks from "../components/Home/LoggedInHowItWorks"
 const Index = () => { 
    const [isLoggedIn, setIsLoggedIn] = useState(false) ;
    const [authChecked, setAuthChecked] = useState(false);
@@ -58,8 +59,7 @@ const Index = () => {
    { isLoggedIn ?<Navbar/>:<LoginNavbar/>} 
   { isLoggedIn ?<LoggedInHeroSection/>:<HeroSection/>}
    <FeaturesSection/>
-   
-   <CTAsection/> 
+  {isLoggedIn ?<LoggedInHowItWorks/>:<CTAsection/> }
    </>
 
   )
