@@ -34,7 +34,7 @@ const Onboarding = () => {
     } ;
     if (userType && token) {
       try {
-      const response =  await fetch(`http://localhost:8085/user/userType`, {
+      const response =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/userType`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" ,
                "Authorization":`Bearer ${token}`

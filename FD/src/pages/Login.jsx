@@ -18,7 +18,7 @@ const Login = () => {
     const userdata = { email, password };
 
     try {
-      const response = await fetch("http://localhost:8085/user/login", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
