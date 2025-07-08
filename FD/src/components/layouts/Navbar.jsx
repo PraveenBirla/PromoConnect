@@ -30,13 +30,13 @@ const Navbar = () => {
           : "bg-gradient-to-br from-purple-900/10 via-blue-900/10 to-indigo-900/10 backdrop-blur-sm"
       }`}
     >
-      <div className="container flex h-10 sm:h-16 items-center justify-between px-2 sm:px-4 mx-auto">
-        <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
+      <div className="container flex h-13 sm:h-16 items-center justify-between px-2 sm:px-4 mx-auto">
+        <Link to="/" className="flex items-center gap-3 sm:gap-3 group">
           <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-600 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:scale-110">
-            <Megaphone className="h-2 sm:h-5 w-2 sm:w-5 text-white" />
+            <Megaphone className="h-5 sm:h-5 w-5 sm:w-5 text-white" />
           </div>
           <span
-            className={`font-bold text-xs sm:text-xl transition-all duration-300 ${
+            className={`font-bold text-base sm:text-xl transition-all duration-300 ${
               isScrolled
                 ? "bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent"
                 : "text-white drop-shadow-lg"

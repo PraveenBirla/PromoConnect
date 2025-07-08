@@ -29,10 +29,10 @@ const LoginNavbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-1 sm:gap-3 group">
           <div className="p-1.5 sm:p-2 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-600 transition-all duration-300 shadow-lg group-hover:shadow-xl group-hover:scale-110">
-            <Megaphone className="h-2 w-2 sm:h-5 sm:w-5 text-white" />
+            <Megaphone className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
           </div>
           <span
-            className={`font-bold text-xs sm:text-xl transition-all duration-300 ${
+            className={`font-bold text-base sm:text-xl transition-all duration-300 ${
               isScrolled
                 ? "bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent"
                 : "text-white drop-shadow-lg"
@@ -49,7 +49,7 @@ const LoginNavbar = () => {
           <nav className="hidden md:flex items-center gap-6 sm:gap-8">
             <Link
               to="/how-it-works"
-              className={`transition-all duration-300 text-sm sm:text-base font-medium relative group ${
+              className={`transition-all duration-300 text-base sm:text-base font-medium relative group ${
                 isScrolled
                   ? "text-gray-700 hover:text-purple-600"
                   : "text-white/90 hover:text-white"
