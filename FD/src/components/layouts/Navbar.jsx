@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Megaphone, User, Sparkles, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -13,7 +13,15 @@ const Navbar = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, []); 
+ 
+  const navigate = useNavigate() ;
+   const handleSignOut = () => {
+    
+    localStorage.removeItem('token');
+    navigate("/")
+    window.location.reload();
+  };
 
   const isActivePage = (path) => location.pathname === path;
 
@@ -59,7 +67,7 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className={`p-1 rounded-lg ${
               isScrolled
-                ? "text-gray-700 hover:bg-gray-100"
+                ? "text-gray-700 hover:bg-gray-100 "
                 : "text-white hover:bg-white/10"
             }`}
           >  
@@ -115,7 +123,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+     
       <div
         className={`md:hidden transition-all duration-300 overflow-hidden ${
           mobileMenuOpen
@@ -125,35 +133,41 @@ const Navbar = () => {
           isScrolled ? "bg-white" : "bg-gradient-to-b from-purple-900/90 to-blue-900/90"
         }`}
       >
-        <div className="container mx-auto px-4 py-3 flex flex-col gap-4">
-          <Link
-            to="/how-it-works"
-            className={`py-2 px-3 rounded-lg transition-all duration-300 ${
-              isScrolled
-                ? "text-gray-700 hover:bg-gray-100"
-                : "text-white hover:bg-white/10"
-            } ${
-              isActivePage("/how-it-works") &&
-              (isScrolled ? "bg-gray-100" : "bg-white/10")
-            }`}
-          >
-            How It Works
-          </Link>
-          
-          <Link
-            to="/profile"
-            className={`py-2 px-3 rounded-lg transition-all duration-300 ${
-              isScrolled
-                ? "text-gray-700 hover:bg-gray-100"
-                : "text-white hover:bg-white/10"
-            } ${
-              isActivePage("/profile") &&
-              (isScrolled ? "bg-gray-100" : "bg-white/10")
-            }`}
-          >
-            Profile
-          </Link>
-        </div>
+        <div className="container mx-auto px-4 py-3 flex flex-col gap-4 hover:bg-green-600">
+  <Link
+    to="/how-it-works"
+    className={`py-2 px-3 rounded-lg transition-all duration-300 font-medium relative group 
+      ${
+        isScrolled
+          ? "text-gray-700 hover:bg-green-600 hover:text-white"
+          : "text-white hover:bg-green-500 hover:text-black"
+      }
+      ${
+        isActivePage("/how-it-works")
+          ? isScrolled
+            ? "bg-gray-100 text-black"
+            : "bg-white/10 text-white"
+          : ""
+      }
+    `}
+  >
+    How It Works
+  </Link>
+
+  <button
+    onClick={handleSignOut}
+    className={`py-2 px-3 rounded-lg transition-all duration-300 text-left font-medium
+      ${
+        isScrolled
+          ? "text-gray-700 hover:bg-gray-100 hover:text-red-500"
+          : "text-white hover:bg-white/10 hover:text-red-400"
+      }
+    `}
+  >
+    Sign Out
+  </button>
+</div>
+
       </div>
     </header>
   );
