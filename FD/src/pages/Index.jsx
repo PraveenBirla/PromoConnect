@@ -7,6 +7,7 @@ import { useEffect , useState} from "react";
 import Navbar from "../components/layouts/Navbar";
 import LoginNavbar from "../components/layouts/LogedInNavbar";
 import LoggedInHowItWorks from "../components/Home/LoggedInHowItWorks"
+import Footer from "../components/layouts/Footer";
 const Index = () => { 
    const [isLoggedIn, setIsLoggedIn] = useState(false) ;
    const [authChecked, setAuthChecked] = useState(false);
@@ -60,6 +61,7 @@ const Index = () => {
   { isLoggedIn ?<LoggedInHeroSection/>:<HeroSection/>}
    <FeaturesSection/>
   {isLoggedIn ?<LoggedInHowItWorks/>:<CTAsection/> }
+  <Footer/>
    </>
 
   )

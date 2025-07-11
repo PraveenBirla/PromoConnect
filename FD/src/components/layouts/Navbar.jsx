@@ -132,7 +132,7 @@ const Navbar = () => {
         } ${
           isScrolled ? "bg-white" : "bg-gradient-to-b from-purple-900/90 to-blue-900/90"
         }`}
-      >
+      >       
         <div className="container mx-auto px-4 py-3 flex flex-col gap-4 hover:bg-green-600">
   <Link
     to="/how-it-works"

@@ -5,7 +5,6 @@ import Onboarding from './pages/Onboarding'
 import CreatorProfile from './pages/CreatorProfile'
 import HowItWorks from './pages/HowItWorks'
 import './App.css' ;
-import Footer from './components/layouts/Footer';
 import { BrowserRouter, Routes ,Route } from 'react-router-dom'
 import BrandProfile from './pages/BrandProfile';
 function App() {  
@@ -22,9 +21,7 @@ function App() {
          <Route path="/onboarding" element={<Onboarding/>}/>  
          <Route path="/profile" element={<BrandProfile/>}/>
          <Route path="/how-it-works" element={<HowItWorks/>}/>
-      </Routes>
-         <Footer/>
-       
+      </Routes>       
       </BrowserRouter>
      
    )
