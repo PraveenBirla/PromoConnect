@@ -33,7 +33,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 
-@CrossOrigin(origins="https://promo-connect.vercel.app") 
+@CrossOrigin(origins={
+                 "https://promo-connect.vercel.app" ,
+                  "http://localhost:5174"
+                }
+                  ) 
 @RestController
 @RequestMapping("/user")
 public class UserController { 
