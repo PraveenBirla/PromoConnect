@@ -2,11 +2,10 @@ import Index from './pages/Index'
 import Login from './pages/Login' 
 import Register from './pages/Register';
 import Onboarding from './pages/Onboarding'
-import CreatorProfile from './pages/CreatorProfile'
 import HowItWorks from './pages/HowItWorks'
+import Profile from './pages/Profile'
 import './App.css' ;
 import { BrowserRouter, Routes ,Route } from 'react-router-dom'
-import BrandProfile from './pages/BrandProfile';
 function App() {  
    
      
@@ -19,8 +18,8 @@ function App() {
          <Route path="/login" element={<Login/>}/>
          <Route path="/register" element={<Register/>}/>
          <Route path="/onboarding" element={<Onboarding/>}/>  
-         <Route path="/profile" element={<BrandProfile/>}/>
          <Route path="/how-it-works" element={<HowItWorks/>}/>
+         <Route path='/profile' element={<Profile/>} />
       </Routes>       
       </BrowserRouter>
      
