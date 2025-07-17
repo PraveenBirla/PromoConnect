@@ -2,6 +2,7 @@ package login.login.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
    
 import org.springframework.security.core.Authentication ;
@@ -21,6 +22,7 @@ import login.login.Request.UpdateRequest;
 import login.login.Request.UserInfo;
 import login.login.Services.UserService;
 import login.login.component.JwtUtil;
+import login.login.Repository.UserRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
  
@@ -45,7 +47,10 @@ public class UserController {
   @Autowired
  public  UserService userService ; 
 
-   @Autowired
+ @Autowired
+private UserRepository userRepository;
+
+ @Autowired
    private JwtUtil  jwtUtil ;
     
   @PostMapping("/signup")
@@ -144,8 +149,16 @@ public class UserController {
 
             String email = jwtUtil.getUsernameFromToken(token);
             Long userId = jwtUtil.getuserIdFromToken(token);
+    
+             Optional<User> userOpt = userRepository.findById(userId);
+          if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+       
+            User user = userOpt.get();
+           String userType = user.getUserType();
   
-            UserInfo response = new UserInfo(email, userId) ;
+            UserInfo response = new UserInfo(email, userId , userType) ;
          
              return  ResponseEntity.ok(response) ;
 

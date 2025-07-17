@@ -56,7 +56,7 @@ public class UserService {
        } 
        
        User user = userOptional.get() ;
-       user.setUsertype(request.getUserType());
+       user.setUserType(request.getUserType());
        User Updateduser = userrepository.save(user) ; 
 
        return Updateduser ;
