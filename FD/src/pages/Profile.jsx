@@ -3,9 +3,9 @@ import CreatorProfile from "../components/Profile/CreatorProfile";
 import BrandProfile from "../components/Profile/BrandProfile";
 
 const ProfilePage = () => {
-  const [userType, setUserType] = useState(null);  // will be "brand" or "creator"
-  const [loading, setLoading] = useState(true);    // to track loading state
-  const [error, setError] = useState(null);        // to track errors
+  const [userType, setUserType] = useState(null);   
+  const [loading, setLoading] = useState(true);     
+  const [error, setError] = useState(null);         
 
   useEffect(() => {
     const token = localStorage.getItem("token");
