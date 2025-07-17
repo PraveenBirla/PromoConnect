@@ -38,11 +38,11 @@ public class User {
     private String username ; 
     private String usertype ;
 
-    public String getUsertype() {
+    public String getUserType() { 
       return usertype;
     }
 
-    public void setUsertype(String usertype) {
+    public void setUserType(String usertype) {
       this.usertype = usertype;
     }
 
@@ -56,7 +56,7 @@ public class User {
 
     public String getUsername() {
       return username;
-    }
+    }   
 
     public void setUsername(String username) {
       this.username = username;
