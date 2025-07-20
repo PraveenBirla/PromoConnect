@@ -66,7 +66,7 @@ const CreatorProfile = () => {
       <div className="bg-gradient-to-r from-purple-300 to-blue-200 h-48 w-full"></div>
 
       <div className="container max-w-4xl mx-auto px-4 -mt-20">
-        {/* Profile Header */}
+         
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="relative">
@@ -99,7 +99,7 @@ const CreatorProfile = () => {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
+       
         <div className="flex border-b mb-6">
           <button
             onClick={() => setActiveTab('about')}
@@ -121,7 +121,7 @@ const CreatorProfile = () => {
           </button>
         </div>
 
-        {/* Tab Content */}
+       
         <div className="bg-white rounded-xl shadow-lg p-6">
           {activeTab === 'about' && (
             <div>
