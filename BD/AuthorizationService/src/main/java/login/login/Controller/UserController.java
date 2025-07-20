@@ -55,21 +55,23 @@ private UserRepository userRepository;
     
   @PostMapping("/signup")
   public ResponseEntity<Map<String,String>>  registerUser(@RequestBody SingupRequest request) { 
-
+  Map<String ,String> response = new HashMap<>();
     try {
         User user  = userService.userRegister(request) ;
         
       if (user != null) { 
-          Map<String ,String> response = new HashMap<>();
+         
           response.put("token" , jwtUtil.generateToken(user.getEmail() , user.getId())) ;
             return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+           response.put("error", "User registration failed");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }   
     } 
      catch (Exception e) {
+       response.put("error", "Internal server error: " + e.getMessage());
            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                             .build();
+                             .body(response);
     }
      
         
