@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CreatorDetailsForm = ({ onComplete, onSkip }) => {
+const CreatorDetailsForm = ({ onComplete }) => {
   const [formData, setFormData] = useState({
     displayName: "",
     bio: "",
@@ -242,22 +242,6 @@ const CreatorDetailsForm = ({ onComplete, onSkip }) => {
           </div>
         )}
 
-        <div className="flex flex-col gap-3 pt-2">
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-blue-600 text-white py-2 sm:py-3 rounded-md hover:bg-blue-700 transition-all disabled:opacity-60"
-          >
-            {isLoading ? "Setting up your profile..." : "Complete Profile Setup"}
-          </button>
-          <button
-            type="button"
-            onClick={onSkip}
-            className="border border-gray-300 py-2 sm:py-3 rounded-md hover:bg-gray-100"
-          >
-            Skip for Now
-          </button>
-        </div>
       </form>
     </div>
   );
