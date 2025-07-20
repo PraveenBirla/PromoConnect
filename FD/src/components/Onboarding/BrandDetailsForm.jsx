@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const BrandDetailsForm = ({ onComplete, onSkip }) => {
+const BrandDetailsForm = ({ onComplete }) => {
   const [formData, setFormData] = useState({
     companyName: "",
     website: "",
@@ -145,23 +145,7 @@ const BrandDetailsForm = ({ onComplete, onSkip }) => {
           />
         </div>
 
-        <div className="flex flex-col gap-3 pt-2">
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-blue-600 text-white py-2 sm:py-3 text-sm sm:text-base rounded-md hover:bg-blue-700 transition-all disabled:opacity-60"
-          >
-            {isLoading ? "Saving..." : "Submit Details"}
-          </button>
 
-          <button
-            type="button"
-            onClick={onSkip}
-            className="border border-gray-300 py-2 sm:py-3 text-sm sm:text-base rounded-md hover:bg-gray-50 transition-all"
-          >
-            Skip for Now
-          </button>
-        </div>
       </form>
     </div>
   );
