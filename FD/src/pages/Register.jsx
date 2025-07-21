@@ -10,7 +10,7 @@ const Register = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
 
-  const validateEmail = (email) => {  
+  const validateEmail = (email) => { 
     // Simple email pattern check
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };

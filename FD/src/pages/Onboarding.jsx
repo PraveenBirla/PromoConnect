@@ -133,6 +133,22 @@ const Onboarding = () => {
               </div>
             </div>
 
+            <div className="mt-6 flex flex-col gap-3">
+              <button
+                onClick={handleUserTypeSelection}
+                disabled={!userType}
+                className="w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+              >
+                Continue with Setup
+              </button>
+              <button
+                onClick={handleSkip}
+                className="w-full py-2 px-4 border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-50"
+              >
+                Skip for Now
+              </button>
+            </div>
+
             <p className="text-xs text-center text-gray-500 mt-4">
               Note: You'll need to complete your profile before you can start promoting or requesting promotions.
             </p>
@@ -140,11 +156,11 @@ const Onboarding = () => {
         )}
 
         {step === 2 && userType === "creator" && (
-             <CreatorDetailsForm onComplete={handleDetailsComplete} />
+             <CreatorDetailsForm onComplete={handleDetailsComplete} onSkip={handleSkip}/>
         )}
 
         {step === 2 && userType === "brand" && (
-           <BrandDetailsForm onComplete={handleDetailsComplete}  />
+           <BrandDetailsForm onComplete={handleDetailsComplete}  onSkip={handleSkip}/>
         )} 
       </div>
     </div>
