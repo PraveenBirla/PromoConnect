@@ -24,7 +24,7 @@ const Index = () => {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then((res )=> {
-      if (res.ok) { 
+      if (res.ok) {  
         
         setIsLoggedIn(true);
       } else {   
