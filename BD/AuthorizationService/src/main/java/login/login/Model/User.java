@@ -21,22 +21,13 @@ public class User {
     @Column(unique = true )
     private String email ; 
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> roles;
+     
 
-    
-
-    public Set<String> getRoles() {
-      return roles;
-    }
-
-    public void setRoles(Set<String> roles) {
-      this.roles = roles;
-    }
+     
 
     private String password ;
     private String username ; 
-    private String usertype ;
+    private String usertype ; 
 
     public String getUserType() { 
       return usertype;
@@ -78,6 +69,6 @@ public class User {
       this.password = password;
     }
 
-    
+     
 
 }
