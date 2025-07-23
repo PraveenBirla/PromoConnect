@@ -12,7 +12,7 @@ public class CreatorDetailRequest {
 
   @ElementCollection 
   private List<String>  platforms ;
-  private String bio ;
+  private String bio ; 
   public String getBio() {
     return bio;
   }

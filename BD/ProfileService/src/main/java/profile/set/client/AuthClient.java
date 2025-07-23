@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import profile.set.request.UserInfo;
 
-@FeignClient(name = "auth-service", url = "http://localhost:8085")
+@FeignClient(name = "auth-service", url = "https://promoconnect-fsk5.onrender.com")
 public interface AuthClient {
      
 @PostMapping("/user/extract-user")

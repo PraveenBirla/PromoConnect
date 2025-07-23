@@ -1,41 +1,10 @@
-package profile.set.model;
-
+package profile.set.request ;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name="creator_detail")
-public class Creator {
-     
-  @Id 
-  Long userId ;
-  
-  private String  displayName ;
-  
-  private String niche ;
 
- @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<CreatorPlatform>  platforms ;
-  
-  private String instagram ;
-  private String youtube;
-  private String tiktok;
-  private String twitter;
-  private String linkedin;
-  private String facebook;   
-  private String bio;
-  public String getBio() {  
-    return bio;
-  }
-  public void setBio(String bio) {
-    this.bio = bio;
-  }
-  public Long getUserId() {
+public class CreatorDTO {
+    public Long getUserId() {
     return userId;
   }
   public void setUserId(Long userId) {
@@ -48,19 +17,13 @@ public class Creator {
     this.displayName = displayName;
   }
   public String getNiche() {
-    return niche; 
+    return niche;
   }
   public void setNiche(String niche) {
     this.niche = niche;
   }
-  public List<CreatorPlatform> getPlatforms() {
-    return platforms;
-  }
-  public void setPlatforms(List<CreatorPlatform> platforms) {
-    this.platforms = platforms;
-  }
   public String getInstagram() {
-    return instagram;
+    return instagram; 
   }
   public void setInstagram(String instagram) {
     this.instagram = instagram;
@@ -94,7 +57,30 @@ public class Creator {
   }
   public void setFacebook(String facebook) {
     this.facebook = facebook;
-  } 
+  }
+  public String getBio() {
+    return bio;
+  }
+  public void setBio(String bio) {
+    this.bio = bio;
+  }
+  public List<String> getPlatforms() {
+    return platforms;
+  }
+  public void setPlatforms(List<String> platforms) {
+    this.platforms = platforms;
+  }
+    private Long userId;
+    private String displayName;
+    private String niche;
+    private String instagram;
+    private String youtube;
+    private String tiktok;
+    private String twitter;
+    private String linkedin;
+    private String facebook;
+    private String bio;
+    private List<String> platforms;  
 
-    
+     
 }

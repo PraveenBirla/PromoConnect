@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
  
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import profile.set.client.AuthClient;
 import profile.set.model.Creator;
+import profile.set.request.CreatorDTO;
 import profile.set.request.CreatorDetailRequest;
 import profile.set.request.UserInfo;
+
 import profile.set.service.UserService;
 
 @CrossOrigin(origins=" http://localhost:5173") 
@@ -68,6 +71,28 @@ public class Controller {
      }
    
  } 
+
+    @GetMapping("/GetcreatorDetails")
+public ResponseEntity<CreatorDTO> getCreatorDetails(HttpServletRequest httpRequest) {
+      try {
+        String authHeader = httpRequest.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String token = authHeader.substring(7);
+        UserInfo userInfo = authClient.extractUserInfo("Bearer " + token);
+        Long userId = userInfo.getUserId();
+
+        CreatorDTO creatorDTO = userService.getCreatorDetailsDTO(userId);
+        return ResponseEntity.ok(creatorDTO);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}
+
    
 
 }
