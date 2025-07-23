@@ -10,7 +10,7 @@ const BrandProfile = () => {
     website: "https://techcorp.com",
     description:
       "Leading technology company focused on innovative solutions for modern businesses. We specialize in AI-powered tools and enterprise software.",
-    industry: "Technology",
+    industry: "Technology",   
     companySize: "201-500 employees",
     campaignGoals:
       "Brand awareness and lead generation through content marketing and influencer partnerships",

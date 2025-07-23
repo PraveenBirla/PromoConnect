@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import CreatorProfile from "../components/Profile/CreatorProfile";
 import BrandProfile from "../components/Profile/BrandProfile";
+import Onboarding from "./Onboarding";
 
 const ProfilePage = () => {
   const [userType, setUserType] = useState(null);   
@@ -43,6 +44,7 @@ const ProfilePage = () => {
     <>
       {userType === "brand" && <BrandProfile />}
       {userType === "creator" && <CreatorProfile />}
+        {!userType && <Onboarding />}
     </>
   );
 };
