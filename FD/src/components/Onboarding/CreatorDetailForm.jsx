@@ -59,7 +59,7 @@ const CreatorDetailsForm = ({ onComplete }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    try {
+    try { 
       const dataToSend = { ...formData };
       if (formData.niche === "Other") {
         dataToSend.niche = formData.otherNiche;
@@ -239,8 +239,17 @@ const CreatorDetailsForm = ({ onComplete }) => {
                 />
               </div>
             )}
-          </div>
-        )}
+          </div> 
+        )} 
+         <div className="flex justify-center">
+    <button
+      type="submit"
+      disabled={isLoading}
+      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {isLoading ? "Submitting..." : "Submit"}
+    </button>
+    </div>
 
       </form>
     </div>

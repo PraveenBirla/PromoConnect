@@ -8,7 +8,7 @@ const Onboarding = () => {
   const [userType, setUserType] = useState("");
    const [notification, setNotification] = useState({ message: '', type: '' });
   const navigate = useNavigate();
-  
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let timer;
@@ -33,7 +33,10 @@ const Onboarding = () => {
        userType : userType   
     } ;
     if (userType && token) {
-      try {
+      try {   
+
+         setLoading(true);
+
       const response =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/userType`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" ,
@@ -57,7 +60,9 @@ const Onboarding = () => {
         console.error("Network or server error:", error);
          setNotification({ message: "Something went wrong. Please try again.", type: "error" });
       }   
-     
+      finally {
+      setLoading(false); 
+    }
     } 
     else {
     setNotification({ message: "User type or user ID is missing.", type: "error" });
@@ -136,16 +141,16 @@ const Onboarding = () => {
             <div className="mt-6 flex flex-col gap-3">
               <button
                 onClick={handleUserTypeSelection}
-                disabled={!userType}
+                disabled={!userType || loading}
                 className="w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
               >
-                Continue with Setup
+               {loading ? "Loading..." : "Continue with setup"}  
               </button>
               <button
                 onClick={handleSkip}
                 className="w-full py-2 px-4 border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-50"
               >
-                Skip for Now
+                Skip for Now 
               </button>
             </div>
 

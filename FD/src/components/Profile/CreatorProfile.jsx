@@ -13,30 +13,31 @@ const CreatorProfile = () => {
   ];
 
   useEffect(() => {
-    const loadProfile = () => {
-      const mockData = {
-        displayName: "Alex Creator",
-        bio: "Tech enthusiast creating content about gaming and technology. Sharing my passion across multiple platforms.",
-        niche: "Tech & Gaming",
-        platforms: ["instagram", "youtube", "tiktok"],
-        instagram: "https://instagram.com/alexcreator",
-        youtube: "https://youtube.com/alexcreator",
-        tiktok: "https://tiktok.com/@alexcreator",
-        engagement: "4.2%",
-        joinedDate: "Jan 2023",
-        location: "San Francisco",
-        totalViews: "2.1M",
-        isVerified: true,
-      };
+  const loadProfile = async () => {
+    try {
+      const token = localStorage.getItem("token"); 
+      const response = await fetch("http://localhost:8086/user/GetcreatorDetails", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },    
+      });
 
-      setTimeout(() => {
-        setProfileData(mockData);
-        setIsLoading(false);
-      }, 800);
-    };
+      if (!response.ok) {
+        throw new Error("Failed to fetch creator profile");
+      }
 
-    loadProfile();
-  }, []);
+      const data = await response.json();
+      setProfileData(data);
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  loadProfile();
+}, []);
 
   if (isLoading) {
     return (
@@ -46,7 +47,7 @@ const CreatorProfile = () => {
           <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto mb-6"></div>
           <div className="h-32 bg-gray-200 rounded-xl"></div>
         </div>
-      </div>
+      </div>   
     );
   }
 
@@ -56,12 +57,12 @@ const CreatorProfile = () => {
         <div className="text-center">
           <h1 className="text-xl font-bold text-gray-800 mb-2">Profile Not Found</h1>
           <p className="text-gray-600">Unable to load creator profile.</p>
-        </div>
+        </div> 
       </div>
     );
   }
 
-  return (
+  return ( 
     <div className="min-h-screen bg-gray-50">
       <div className="bg-gradient-to-r from-purple-300 to-blue-200 h-48 w-full"></div>
 
