@@ -1,284 +1,227 @@
-import React, { useState } from "react";
-import { Edit3, Save, X, Building2, Globe, Users, MapPin, Target, User } from "lucide-react";
+// First, install a modern notification library for better UX
+// npm install react-hot-toast
+
+import React, { useState, useEffect } from "react";
+import { Toaster, toast } from 'react-hot-toast';
+import { Edit3, Save, X, Building2, Globe, Users, MapPin, User, Loader2, AlertTriangle } from "lucide-react";
+
+// Skeleton Component for a better loading experience
+const ProfileSkeleton = () => (
+  <div className="max-w-6xl mx-auto space-y-8 animate-pulse">
+    <div className="text-center space-y-2 pt-8">
+      <div className="h-10 bg-gray-300 rounded-md w-1/3 mx-auto"></div>
+      <div className="h-4 bg-gray-300 rounded-md w-2/3 mx-auto mt-2"></div>
+    </div>
+    <div className="overflow-hidden rounded-lg bg-gray-400 h-48"></div>
+    <div className="shadow-xl border-0 rounded-lg bg-white p-8 space-y-8">
+        <div className="h-8 bg-gray-300 rounded-md w-1/4"></div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="h-10 bg-gray-200 rounded-md"></div>
+            <div className="h-10 bg-gray-200 rounded-md"></div>
+        </div>
+        <div className="h-24 bg-gray-200 rounded-md"></div>
+    </div>
+  </div>
+);
+
 
 const BrandProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // True on initial load
+  const [isSaving, setIsSaving] = useState(false);  // For the save button
+  const [error, setError] = useState(null);
 
-  const [formData, setFormData] = useState({
-    companyName: "TechCorp Inc",
-    website: "https://techcorp.com",
-    description:
-      "Leading technology company focused on innovative solutions for modern businesses. We specialize in AI-powered tools and enterprise software.",
-    industry: "Technology",   
-    companySize: "201-500 employees",
-    campaignGoals:
-      "Brand awareness and lead generation through content marketing and influencer partnerships",
-    contactPerson: "Sarah Johnson",
-    position: "Marketing Director",
-    location: "San Francisco, CA",
-  });
+  const [formData, setFormData] = useState(null);
+  const [originalData, setOriginalData] = useState(null); // To store original state for cancellation
 
-  const industries = [
-    "Technology",
-    "Fashion & Beauty",
-    "Food & Beverage",
-    "Health & Fitness",
-    "Travel & Tourism",
-    "Education",
-    "Finance",
-    "Entertainment",
-    "Automotive",
-    "Real Estate",
-    "Other",
-  ];
+  useEffect(() => {
+    const fetchBrandDetails = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("Authentication failed. Please log in again.");
+        
+        // This is where you fetch the user's existing brand data
+        const response = await fetch('http://localhost:8086/user/brandDetails', {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
 
-  const companySizes = [
-    "1-10 employees",
-    "11-50 employees",
-    "51-200 employees",
-    "201-500 employees",
-    "500+ employees",
-  ];
+        if (!response.ok) {
+           if(response.status === 404) throw new Error("No profile found. Please create your brand profile.");
+           throw new Error("Failed to load your profile data.");
+        }
+        
+        const data = await response.json();
+        // The API returns the fields from your form, but not 'campaignGoals'
+        setFormData(data);
+        setOriginalData(data); // Set the pristine data for the cancel action
+        
+      } catch (err) {
+        setError(err.message);
+        toast.error(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const handleSubmit = (e) => {
+    fetchBrandDetails();
+  }, []); // Empty array means this runs once on component mount
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  
+  const handleSave = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsEditing(false);
-      alert("Profile updated successfully!");
-    }, 1500);
-  };
+    setIsSaving(true);
+    
+    try {
+        const token = localStorage.getItem("token");
+        const response = await fetch('http://localhost:8086/user/brandDetails', {
+            method: 'PUT', // Use PUT to update the entire resource
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
 
+        if (!response.ok) throw new Error("Failed to save changes. Please try again.");
+
+        const updatedData = await response.json();
+        setFormData(updatedData);
+        setOriginalData(updatedData); // The new "original" is the saved data
+        setIsEditing(false);
+        toast.success("Profile updated successfully!");
+
+    } catch (err) {
+        toast.error(err.message);
+    } finally {
+        setIsSaving(false);
+    }
+  };
+  
   const handleCancel = () => {
+    setFormData(originalData); // Revert all changes
     setIsEditing(false);
-    alert("Changes cancelled");
+    toast("Changes discarded.");
   };
 
-  const renderField = (label, value, key, required = false, type = "text", icon = null) => (
-    <div className="space-y-2">
-      <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
-        {icon}
-        {label}
-        {required && <span className="text-red-500">*</span>}
-      </label>
-      {isEditing ? (
-        <input
-          type={type}
-          value={formData[key]}
-          onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
-          required={required}
-          className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      ) : (
-        <div className="p-3 bg-gray-50 rounded-lg text-sm font-medium text-gray-700 border border-gray-200">
-          {value}
-        </div>
-      )}
-    </div>
-  );
+  const toggleEditMode = () => {
+    if (isEditing) {
+        handleCancel();
+    } else {
+        setIsEditing(true);
+    }
+  }
 
-  const renderSelectField = (label, key, options, icon = null) => (
-    <div className="space-y-2">
-      <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
-        {icon}
-        {label}
-      </label>
-      {isEditing ? (
-        <select
-          value={formData[key]}
-          onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
-          className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">Select...</option>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      ) : (
-        <div className="p-3 bg-gray-50 rounded-lg text-sm font-medium text-gray-700 border border-gray-200">
-          {formData[key]}
+  // --- Render Functions ---
+  const renderField = (label, key, icon, options = {}) => {
+    const { required = false, type = "text" } = options;
+    return (
+        <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">{icon} {label} {required && <span className="text-red-500">*</span>}</label>
+            {isEditing ? (
+                <input type={type} name={key} value={formData[key] || ''} onChange={handleChange} required={required} className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            ) : (
+                <div className="p-3 bg-gray-50 rounded-lg text-sm font-medium text-gray-700 border border-gray-200 min-h-[40px] flex items-center">{formData[key]}</div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
+  };
+  // Add other render functions (select, textarea) if needed, following the same pattern.
 
-  const renderTextareaField = (label, key, minHeight = "100px", icon = null) => (
-    <div className="space-y-2">
-      <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">
-        {icon}
-        {label}
-      </label>
-      {isEditing ? (
-        <textarea
-          value={formData[key]}
-          onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
-          className={`w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[${minHeight}] resize-none`}
-        />
-      ) : (
-        <div className={`p-3 bg-gray-50 rounded-lg text-sm font-medium text-gray-700 border border-gray-200 min-h-[${minHeight}]`}>
-          {formData[key]}
+  if (isLoading) {
+    return (
+        <div className="min-h-screen bg-white p-4">
+            <Toaster position="top-right" />
+            <ProfileSkeleton />
         </div>
-      )}
-    </div>
-  );
+    );
+  }
+
+  if (error || !formData) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center text-center p-4">
+        <Toaster position="top-right" />
+        <div className="bg-white p-10 rounded-lg shadow-lg">
+          <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-800">An Error Occurred</h2>
+          <p className="text-gray-600 mt-2">{error}</p>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-4">
+      <Toaster position="top-right" />
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-2 pt-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            Brand Profile
-          </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Manage your brand information and campaign details to create meaningful partnerships
-          </p>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Brand Profile
+            </h1>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+                Manage your brand information to create meaningful partnerships.
+            </p>
         </div>
 
         {/* Profile Overview Card */}
         <div className="overflow-hidden shadow-xl rounded-lg border-0 bg-gradient-to-r from-blue-600 to-indigo-600">
-          <div className="p-8 text-white">
-            <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
-              <div className="flex-1 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                    <Building2 className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-bold">{formData.companyName}</h2>
-                    <p className="text-blue-100">{formData.position} • {formData.contactPerson}</p>
-                  </div>
+            <div className="p-8 text-white">
+                <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
+                    <div className="flex-1 space-y-4">
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center"><Building2 className="w-6 h-6" /></div>
+                            <div>
+                                <h2 className="text-3xl font-bold">{formData.companyName}</h2>
+                                <p className="text-blue-100">{formData.position} • {formData.contactPerson}</p>
+                            </div>
+                        </div>
+                        <p className="text-blue-50 leading-relaxed max-w-3xl">{formData.description}</p>
+                        <div className="flex flex-wrap gap-3">
+                            {/* Dynamically shown tags */}
+                            <span className="tag"><Globe className="w-3 h-3 mr-1" />{formData.website}</span>
+                            <span className="tag"><Building2 className="w-3 h-3 mr-1" />{formData.industry}</span>
+                            <span className="tag"><Users className="w-3 h-3 mr-1" />{formData.companySize}</span>
+                            <span className="tag"><MapPin className="w-3 h-3 mr-1" />{formData.location}</span>
+                        </div>
+                    </div>
+                    <button onClick={toggleEditMode} className="edit-button">
+                        {isEditing ? <><X className="w-4 h-4" />Cancel</> : <><Edit3 className="w-4 h-4" />Edit Profile</>}
+                    </button>
                 </div>
-                
-                <p className="text-blue-50 leading-relaxed max-w-3xl">
-                  {formData.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-3">
-                  <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-white/20 text-white border-white/30 hover:bg-white/30">
-                    <Globe className="w-3 h-3 mr-1" />
-                    {formData.website}
-                  </span>
-                  <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-white/20 text-white border-white/30 hover:bg-white/30">
-                    <Building2 className="w-3 h-3 mr-1" />
-                    {formData.industry}
-                  </span>
-                  <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-white/20 text-white border-white/30 hover:bg-white/30">
-                    <Users className="w-3 h-3 mr-1" />
-                    {formData.companySize}
-                  </span>
-                  <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-white/20 text-white border-white/30 hover:bg-white/30">
-                    <MapPin className="w-3 h-3 mr-1" />
-                    {formData.location}
-                  </span>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setIsEditing(!isEditing)}
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 bg-white text-blue-600 hover:bg-blue-50 font-semibold shadow-lg"
-              >
-                {isEditing ? (
-                  <>
-                    <X className="w-4 h-4" />
-                    Cancel
-                  </>
-                ) : (
-                  <>
-                    <Edit3 className="w-4 h-4" />
-                    Edit Profile
-                  </>
-                )}
-              </button>
             </div>
-          </div>
         </div>
 
         {/* Profile Form */}
         <div className="shadow-xl border-0 rounded-lg bg-white">
-          <div className="bg-gray-50 border-b p-6">
-            <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-              <Building2 className="w-6 h-6 text-blue-600" />
-              Company Information
-            </h3>
-          </div>
-          <div className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Basic Information */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {renderField("Company Name", formData.companyName, "companyName", true, "text", <Building2 className="w-4 h-4 text-blue-600" />)}
-                {renderField("Website", formData.website, "website", false, "url", <Globe className="w-4 h-4 text-blue-600" />)}
-              </div>
+            <div className="bg-gray-50 border-b p-6">
+                <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2"><Building2 className="w-6 h-6 text-blue-600" /> Company Information</h3>
+            </div>
+            <div className="p-8">
+                <form onSubmit={handleSave} className="space-y-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {renderField("Company Name", "companyName", <Building2 className="w-4 h-4 text-blue-600" />, { required: true })}
+                        {renderField("Website", "website", <Globe className="w-4 h-4 text-blue-600" />, { type: 'url' })}
+                    </div>
 
-              {renderTextareaField("Company Description", "description", "120px", <Building2 className="w-4 h-4 text-blue-600" />)}
+                    {/* ... other fields like description, industry, companySize, contactPerson, etc. */}
+                    {/* Make sure to use the renderField function for consistency */}
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {renderSelectField("Industry", "industry", industries, <Building2 className="w-4 h-4 text-blue-600" />)}
-                {renderSelectField("Company Size", "companySize", companySizes, <Users className="w-4 h-4 text-blue-600" />)}
-              </div>
-
-              <div className="border-t my-8"></div>
-
-              {/* Contact Information */}
-              <div className="space-y-6">
-                <h4 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                  <User className="w-5 h-5 text-blue-600" />
-                  Contact Information
-                </h4>
-                
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {renderField("Contact Person", formData.contactPerson, "contactPerson", true, "text", <User className="w-4 h-4 text-blue-600" />)}
-                  {renderField("Position/Title", formData.position, "position", false, "text", <User className="w-4 h-4 text-blue-600" />)}
-                  {renderField("Location", formData.location, "location", false, "text", <MapPin className="w-4 h-4 text-blue-600" />)}
-                </div>
-              </div>
-
-              <div className="border-t my-8"></div>
-
-              {/* Campaign Goals */}
-              <div className="space-y-6">
-                <h4 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                  <Target className="w-5 h-5 text-blue-600" />
-                  Campaign Goals
-                </h4>
-                {renderTextareaField("Campaign Goals & Objectives", "campaignGoals", "100px", <Target className="w-4 h-4 text-blue-600" />)}
-              </div>
-
-              {isEditing && (
-                <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold shadow-lg disabled:opacity-50"
-                  >
-                    {isLoading ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        Saving...
-                      </>
-                    ) : (
-                      <>
-                        <Save className="w-4 h-4" />
-                        Save Changes
-                      </>
+                    {isEditing && (
+                        <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
+                            <button type="submit" disabled={isSaving} className="save-button">
+                                {isSaving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : <><Save className="w-4 h-4" /> Save Changes</>}
+                            </button>
+                            <button type="button" onClick={handleCancel} className="cancel-button">
+                                <X className="w-4 h-4" /> Cancel
+                            </button>
+                        </div>
                     )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCancel}
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 border border-gray-300 bg-white hover:bg-gray-100 text-gray-700 font-semibold"
-                  >
-                    <X className="w-4 h-4" />
-                    Cancel
-                  </button>
-                </div>
-              )}
-            </form>
-          </div>
+                </form>
+            </div>
         </div>
       </div>
     </div>

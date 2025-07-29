@@ -75,7 +75,7 @@ const CreatorDetailsForm = ({ onComplete }) => {
       console.log("Sending data:", dataToSend);
       const token = localStorage.getItem("token");
       const response = await fetch("http://localhost:8086/user/creatorDetails", {
-        method: "POST",
+        method: "POST", 
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
