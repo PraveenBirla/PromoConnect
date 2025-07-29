@@ -51,7 +51,7 @@ const LoggedInHeroSection = () => {
               heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            <Link to="/promoters" className="w-full sm:w-auto">
+            <Link to="/findcreators" className="w-full sm:w-auto">
               <button
                 type="button"
                 className="  sm:w-auto px-5 py-3 text-sm  sm:text-base lg:text-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl inline-flex items-center justify-center"

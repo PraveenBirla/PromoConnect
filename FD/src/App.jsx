@@ -4,6 +4,7 @@ import Register from './pages/Register';
 import Onboarding from './pages/Onboarding'
 import HowItWorks from './pages/HowItWorks'
 import Profile from './pages/Profile'
+import FindCreators from './pages/FindCreators';
 import './App.css' ;
 import { BrowserRouter, Routes ,Route } from 'react-router-dom'
 function App() {  
@@ -20,6 +21,7 @@ function App() {
          <Route path="/onboarding" element={<Onboarding/>}/>  
          <Route path="/how-it-works" element={<HowItWorks/>}/>
          <Route path='/profile' element={<Profile/>} />
+          <Route path='/findcreators' element={<FindCreators/>}/>
       </Routes>       
       </BrowserRouter>
      
