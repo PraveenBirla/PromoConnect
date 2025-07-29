@@ -77,12 +77,14 @@ public class UserService {
         dto.setBio(creator.getBio());
 
         List<String> platformNames = creator.getPlatforms().stream()
-                .map(p -> p.getPlatform()) // this matches your CreatorPlatform class
+                .map(p -> p.getPlatform())  
                 .collect(Collectors.toList());
 
         dto.setPlatforms(platformNames);
 
         return dto;
-    }
+    } 
+
+    
        
 }
