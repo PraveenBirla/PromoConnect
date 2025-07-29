@@ -61,9 +61,9 @@ const CreatorProfile = () => {
       </div>
     );
   }
-
+ 
   return ( 
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 p-4">
       <div className="bg-gradient-to-r from-purple-300 to-blue-200 h-48 w-full"></div>
 
       <div className="container max-w-4xl mx-auto px-4 -mt-20">

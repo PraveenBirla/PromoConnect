@@ -1,231 +1,238 @@
-// First, install a modern notification library for better UX
-// npm install react-hot-toast
+// Ensure you have these packages:
+// npm install react-hot-toast lucide-react
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Toaster, toast } from 'react-hot-toast';
-import { Edit3, Save, X, Building2, Globe, Users, MapPin, User, Loader2, AlertTriangle } from "lucide-react";
+import {
+    Building, Globe, Users, MapPin, User, Loader2, AlertTriangle, Edit, Check, X, Image as ImageIcon
+} from "lucide-react";
 
-// Skeleton Component for a better loading experience
+// --- Skeleton Loader for a Compact Layout ---
 const ProfileSkeleton = () => (
-  <div className="max-w-6xl mx-auto space-y-8 animate-pulse">
-    <div className="text-center space-y-2 pt-8">
-      <div className="h-10 bg-gray-300 rounded-md w-1/3 mx-auto"></div>
-      <div className="h-4 bg-gray-300 rounded-md w-2/3 mx-auto mt-2"></div>
-    </div>
-    <div className="overflow-hidden rounded-lg bg-gray-400 h-48"></div>
-    <div className="shadow-xl border-0 rounded-lg bg-white p-8 space-y-8">
-        <div className="h-8 bg-gray-300 rounded-md w-1/4"></div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="h-10 bg-gray-200 rounded-md"></div>
-            <div className="h-10 bg-gray-200 rounded-md"></div>
+    <div className="w-full max-w-4xl mx-auto animate-pulse">
+        <div className="bg-white p-8 rounded-2xl shadow-sm">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 bg-gray-300 rounded-full"></div>
+                    <div>
+                        <div className="h-7 w-48 bg-gray-300 rounded-md"></div>
+                        <div className="h-4 w-32 bg-gray-200 rounded-md mt-2"></div>
+                    </div>
+                </div>
+                <div className="w-28 h-10 bg-gray-300 rounded-lg"></div>
+            </div>
+            {/* Fields */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                {[...Array(6)].map((_, i) => (
+                    <div key={i} className="space-y-2">
+                        <div className="h-4 w-24 bg-gray-200 rounded-md"></div>
+                        <div className="h-8 w-full bg-gray-300 rounded-md"></div>
+                    </div>
+                ))}
+            </div>
         </div>
-        <div className="h-24 bg-gray-200 rounded-md"></div>
     </div>
-  </div>
 );
 
 
+// --- Reusable Field Component (for display or input) ---
+const ProfileField = ({ label, name, value, Icon, isEditing, onChange, type = "text" }) => (
+    <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-500 flex items-center mb-1">
+            <Icon className="w-4 h-4 mr-2 text-gray-400" />
+            {label}
+        </label>
+        {isEditing ? (
+            <input
+                type={type}
+                name={name}
+                value={value}
+                onChange={onChange}
+                className="w-full px-3 py-2 text-base text-gray-800 bg-gray-100 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-gray-800 focus:bg-white transition"
+            />
+        ) : (
+            <p className="text-base font-semibold text-gray-800 truncate min-h-[40px] flex items-center">
+                {value || "-"}
+            </p>
+        )}
+    </div>
+);
+
+
+// --- Main Brand Profile Component ---
 const BrandProfile = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // True on initial load
-  const [isSaving, setIsSaving] = useState(false);  // For the save button
-  const [error, setError] = useState(null);
+    const [profile, setProfile] = useState(null);
+    const [originalProfile, setOriginalProfile] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState(null);
 
-  const [formData, setFormData] = useState(null);
-  const [originalData, setOriginalData] = useState(null); // To store original state for cancellation
+    // Fetch initial data
+    useEffect(() => {
+        const fetchBrandDetails = async () => {
+            setIsLoading(true);
+            try { 
+                const token = localStorage.getItem("token");
+                if (!token) throw new Error("Authentication token not found.");
 
-  useEffect(() => {
-    const fetchBrandDetails = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("Authentication failed. Please log in again.");
-        
-        // This is where you fetch the user's existing brand data
-        const response = await fetch('http://localhost:8086/user/brandDetails', {
-          headers: { 'Authorization': `Bearer ${token}` },
-        });
+                const response = await fetch('http://localhost:8086/user/getbrandDetails', {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
 
-        if (!response.ok) {
-           if(response.status === 404) throw new Error("No profile found. Please create your brand profile.");
-           throw new Error("Failed to load your profile data.");
-        }
-        
-        const data = await response.json();
-        // The API returns the fields from your form, but not 'campaignGoals'
-        setFormData(data);
-        setOriginalData(data); // Set the pristine data for the cancel action
-        
-      } catch (err) {
-        setError(err.message);
-        toast.error(err.message);
-      } finally {
-        setIsLoading(false);
-      }
+                if (!response.ok) {
+                    if (response.status === 404) throw new Error("No profile found. Please create one first.");
+                    throw new Error("Could not load your profile.");
+                }
+
+                const data = await response.json();
+                setProfile(data);
+                setOriginalProfile(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchBrandDetails();
+    }, []);
+
+    const handleChange = (e) => {
+        setProfile({ ...profile, [e.target.name]: e.target.value });
     };
 
-    fetchBrandDetails();
-  }, []); // Empty array means this runs once on component mount
+    const handleSave = async () => {
+        setIsSaving(true);
+        const toastId = toast.loading("Saving profile...");
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch('http://localhost:8086/user/brandDetails', {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(profile),
+            });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  
-  const handleSave = async (e) => {
-    e.preventDefault();
-    setIsSaving(true);
-    
-    try {
-        const token = localStorage.getItem("token");
-        const response = await fetch('http://localhost:8086/user/brandDetails', {
-            method: 'PUT', // Use PUT to update the entire resource
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        });
+            if (!response.ok) throw new Error("Failed to save changes.");
 
-        if (!response.ok) throw new Error("Failed to save changes. Please try again.");
+            const updatedData = await response.json();
+            setProfile(updatedData);
+            setOriginalProfile(updatedData);
+            setIsEditing(false);
+            toast.success("Profile updated successfully!", { id: toastId });
+        } catch (err) {
+            toast.error(err.message, { id: toastId });
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
-        const updatedData = await response.json();
-        setFormData(updatedData);
-        setOriginalData(updatedData); // The new "original" is the saved data
+    const handleCancel = () => {
+        setProfile(originalProfile);
         setIsEditing(false);
-        toast.success("Profile updated successfully!");
+        toast("Changes discarded.");
+    };
 
-    } catch (err) {
-        toast.error(err.message);
-    } finally {
-        setIsSaving(false);
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+                <ProfileSkeleton />
+            </div>
+        );
     }
-  };
-  
-  const handleCancel = () => {
-    setFormData(originalData); // Revert all changes
-    setIsEditing(false);
-    toast("Changes discarded.");
-  };
 
-  const toggleEditMode = () => {
-    if (isEditing) {
-        handleCancel();
-    } else {
-        setIsEditing(true);
+    if (error) {
+        return (
+            <div className="min-h-screen bg-gray-100 flex items-center justify-center text-center p-4">
+                <div className="bg-white p-10 rounded-lg shadow-sm">
+                    <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+                    <h2 className="text-2xl font-bold text-gray-800">An Error Occurred</h2>
+                    <p className="text-gray-600 mt-2">{error}</p>
+                </div>
+            </div>
+        );
     }
-  }
 
-  // --- Render Functions ---
-  const renderField = (label, key, icon, options = {}) => {
-    const { required = false, type = "text" } = options;
     return (
-        <div className="space-y-2">
-            <label className="text-sm font-semibold text-gray-800 flex items-center gap-2">{icon} {label} {required && <span className="text-red-500">*</span>}</label>
-            {isEditing ? (
-                <input type={type} name={key} value={formData[key] || ''} onChange={handleChange} required={required} className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            ) : (
-                <div className="p-3 bg-gray-50 rounded-lg text-sm font-medium text-gray-700 border border-gray-200 min-h-[40px] flex items-center">{formData[key]}</div>
-            )}
-        </div>
-    );
-  };
-  // Add other render functions (select, textarea) if needed, following the same pattern.
-
-  if (isLoading) {
-    return (
-        <div className="min-h-screen bg-white p-4">
+        <div className="bg-gradient-to-r from-purple-300 to-blue-200 min-h-screen  bg-gray-50  flex items-center justify-center p-4 font-sans">
             <Toaster position="top-right" />
-            <ProfileSkeleton />
-        </div>
-    );
-  }
-
-  if (error || !formData) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center text-center p-4">
-        <Toaster position="top-right" />
-        <div className="bg-white p-10 rounded-lg shadow-lg">
-          <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-800">An Error Occurred</h2>
-          <p className="text-gray-600 mt-2">{error}</p>
-        </div>
-      </div>
-    );
-  }
-
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-4">
-      <Toaster position="top-right" />
-      <div className="max-w-6xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="text-center space-y-2 pt-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Brand Profile
-            </h1>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-                Manage your brand information to create meaningful partnerships.
-            </p>
-        </div>
-
-        {/* Profile Overview Card */}
-        <div className="overflow-hidden shadow-xl rounded-lg border-0 bg-gradient-to-r from-blue-600 to-indigo-600">
-            <div className="p-8 text-white">
-                <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
-                    <div className="flex-1 space-y-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center"><Building2 className="w-6 h-6" /></div>
+            <div className=" bg-gray-50 w-full max-w-4xl">
+                <div className=" p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200">
+                    
+                    <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-6 mb-6 border-b border-gray-200">
+                        <div className="flex items-center gap-4">
+                            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center border">
+                                <ImageIcon className="w-8 h-8 text-gray-400" />
+                            </div>
                             <div>
-                                <h2 className="text-3xl font-bold">{formData.companyName}</h2>
-                                <p className="text-blue-100">{formData.position} • {formData.contactPerson}</p>
+                                <h1 className="text-2xl font-bold text-gray-900">{profile.companyName}</h1>
+                                <p className="text-gray-500">{profile.industry}</p>
                             </div>
                         </div>
-                        <p className="text-blue-50 leading-relaxed max-w-3xl">{formData.description}</p>
-                        <div className="flex flex-wrap gap-3">
-                            {/* Dynamically shown tags */}
-                            <span className="tag"><Globe className="w-3 h-3 mr-1" />{formData.website}</span>
-                            <span className="tag"><Building2 className="w-3 h-3 mr-1" />{formData.industry}</span>
-                            <span className="tag"><Users className="w-3 h-3 mr-1" />{formData.companySize}</span>
-                            <span className="tag"><MapPin className="w-3 h-3 mr-1" />{formData.location}</span>
+                        {!isEditing && (
+                            <button
+                                onClick={() => setIsEditing(true)}
+                                className="mt-4 sm:mt-0 flex items-center justify-center gap-2 px-4 py-2 bg-white text-gray-800 rounded-lg text-sm font-semibold border border-gray-300 hover:bg-gray-100 transition-colors"
+                            >
+                                <Edit className="w-4 h-4" /> Edit Profile
+                            </button>
+                        )}
+                    </header>
+
+                    {/* --- Profile Details Grid --- */}
+                    <main className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                        <ProfileField label="Company Name" name="companyName" value={profile.companyName} Icon={Building} isEditing={isEditing} onChange={handleChange} />
+                        <ProfileField label="Website" name="website" value={profile.website} Icon={Globe} isEditing={isEditing} onChange={handleChange} type="url" />
+                        <ProfileField label="Company Size" name="companySize" value={profile.companySize} Icon={Users} isEditing={isEditing} onChange={handleChange} />
+                        <ProfileField label="Location" name="location" value={profile.location} Icon={MapPin} isEditing={isEditing} onChange={handleChange} />
+                        <ProfileField label="Contact Person" name="contactPerson" value={profile.contactPerson} Icon={User} isEditing={isEditing} onChange={handleChange} />
+                        <ProfileField label="Position" name="position" value={profile.position} Icon={User} isEditing={isEditing} onChange={handleChange} />
+                        
+                        {/* Description field spanning two columns */}
+                        <div className="md:col-span-2">
+                             <label className="text-sm font-medium text-gray-500 flex items-center mb-1">
+                                <Building className="w-4 h-4 mr-2 text-gray-400" />
+                                Brand Description
+                            </label>
+                            {isEditing ? (
+                                <textarea
+                                    name="description"
+                                    value={profile.description}
+                                    onChange={handleChange}
+                                    rows="4"
+                                    className="w-full px-3 py-2 text-base text-gray-800 bg-gray-100 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-gray-800 focus:bg-white transition"
+                                />
+                            ) : (
+                                <p className="text-base text-gray-700 whitespace-pre-wrap">
+                                    {profile.description || "-"}
+                                </p>
+                            )}
                         </div>
-                    </div>
-                    <button onClick={toggleEditMode} className="edit-button">
-                        {isEditing ? <><X className="w-4 h-4" />Cancel</> : <><Edit3 className="w-4 h-4" />Edit Profile</>}
-                    </button>
+                    </main>
+
+                    {/* --- Action Buttons --- */}
+                    {isEditing && (
+                        <footer className="flex items-center justify-end gap-3 pt-8 mt-8 border-t border-gray-200">
+                            <button onClick={handleCancel} className="px-4 py-2 bg-white text-gray-800 rounded-lg text-sm font-semibold border border-gray-300 hover:bg-gray-100 transition-colors">
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleSave}
+                                disabled={isSaving}
+                                className="px-4 py-2 flex items-center gap-2 bg-gray-800 text-white rounded-lg text-sm font-semibold hover:bg-black transition-colors disabled:bg-gray-400"
+                            >
+                                {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                                Save Changes
+                            </button>
+                        </footer>
+                    )}
                 </div>
             </div>
         </div>
-
-        {/* Profile Form */}
-        <div className="shadow-xl border-0 rounded-lg bg-white">
-            <div className="bg-gray-50 border-b p-6">
-                <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2"><Building2 className="w-6 h-6 text-blue-600" /> Company Information</h3>
-            </div>
-            <div className="p-8">
-                <form onSubmit={handleSave} className="space-y-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {renderField("Company Name", "companyName", <Building2 className="w-4 h-4 text-blue-600" />, { required: true })}
-                        {renderField("Website", "website", <Globe className="w-4 h-4 text-blue-600" />, { type: 'url' })}
-                    </div>
-
-                    {/* ... other fields like description, industry, companySize, contactPerson, etc. */}
-                    {/* Make sure to use the renderField function for consistency */}
-
-                    {isEditing && (
-                        <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
-                            <button type="submit" disabled={isSaving} className="save-button">
-                                {isSaving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : <><Save className="w-4 h-4" /> Save Changes</>}
-                            </button>
-                            <button type="button" onClick={handleCancel} className="cancel-button">
-                                <X className="w-4 h-4" /> Cancel
-                            </button>
-                        </div>
-                    )}
-                </form>
-            </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default BrandProfile;
