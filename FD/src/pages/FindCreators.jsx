@@ -1,31 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
- 
-
-const featuredCreators = [
+// --- Mock Data ---
+// In a real application, this data would come from your backend API.
+const initialCreators = [
     {
-        name: 'Lucas Bennett',
+        id: 1,
+        name: 'Lucas Bennett', 
         niche: 'Tech Reviews',
-        imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDTO43UgqzdDTtPDnZRIKNEg-EoS_KqdsxVLILX-mVmk6lBD44PLalxtwYzjspyiN7W0nvsZKnQa8XuKOKe7ULJ-PvWufsfN-RoZZnkxEF0cEGstktSB1JYUN_HJgFiU6IeoT2npAsASqLmSlj1OVsLMowy4nfUjr373EDvbimcbC9zRZW07eJYLTCTs5_XbIxA7dghsNxCopqA-L14xoIZogCri_W-Ai_0-TxA46iUd8v2fDugrdLzGIMmCGoKRUmIpdPmb-ia9TMP',
+        imageUrl: 'https://placehold.co/158x158/e9edf1/101518?text=LB',
     },
     {
+        id: 2,
         name: 'Isabella Carter',
         niche: 'Fashion & Style',
-        imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBcCXIh5jXl3hbK8yRrIVsGdqki2MaPgreEahVIciSfl2EVCpEqaX-hZR2sYCvvHQPgWYJJ-KJRy-_LqBN9MS9jtFnAWpeqnak5h8mEtrXW8n9_bupFsVT81xCm-FbvilYMsbYd6RAWilCNn80Xvva_Cdq7gnbCTqb6giZbanWJA4xI3XECXOdpVWbEBn8b-IvGaBngU5ZGGk6R3Kw8ftyhfdHa_OKe9o1Oz-0b1Fq9EstTi-m4KHubuVi2pJ46zXEvxvVfhYKkQ-LO',
+        imageUrl: 'https://placehold.co/158x158/e9edf1/101518?text=IC',
     },
     {
+        id: 3,
         name: 'Noah Hayes',
         niche: 'Travel Vlogs',
-        imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCJTLt9BTpIWlQg6pZrE4vDJXAn9cRgNSZP3jcG0fL8lD3pc5aEdKxFTJPdieYD1fiO-LdWWwz4i658W14yoAJZn21Vy8VujL4K1wCYDoAnIG4wppg9htoSybpO1BKjDPzlVjnTpWWJokjvsueqSD6Hh0e_JRiCS6hZvsMUjm_gRmeBlqRiVEPlSJQyg35UcWVFj9PqCsfCACSU5z4gOMSWsrd5O2krFZ4fl624gE2u8pE31MQByuxtl8iSUk8OxizSLbHabHFUl0D9',
+        imageUrl: 'https://placehold.co/158x158/e9edf1/101518?text=NH',
     },
     {
+        id: 4,
         name: 'Ava Reed',
         niche: 'Food Photography',
-        imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBFCtrPvrhZimKTHuJvgApv454Wgtc9HEm0Ss1Bhxi6LU-Uv-RUrWJRl6P2HuPoyEX0LIRJMBU74C-VPEzKP7ykvqWWweCIyAkKLBupp3o0vil35NddTtef1DXC8qdPXSRINXnINDmYQorRYdbkFKBfdtXAJXwRcEDVVyNt1ikhB95n89lEwlr1BRSqfzsWpyccHD4izCB6oiJNVQUxfZVmXNkOsXvJFkctAcJ-D9detHNa199onHc9ODmBeRf0sDnY_ujENC-i8-aU',
+        imageUrl: 'https://placehold.co/158x158/e9edf1/101518?text=AR',
+    },
+    {
+        id: 5,
+        name: 'Ethan James',
+        niche: 'DIY Projects',
+        imageUrl: 'https://placehold.co/158x158/e9edf1/101518?text=EJ',
+    },
+    {
+        id: 6,
+        name: 'Mia Williams',
+        niche: 'Fitness & Wellness',
+        imageUrl: 'https://placehold.co/158x158/e9edf1/101518?text=MW',
     },
 ];
 
-// --- SVG Icon Components for better reusability ---
+
+// --- SVG Icon Components ---
+// These components are reusable for icons throughout the app.
 
 const ArrowLeftIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
@@ -45,22 +63,35 @@ const CaretDownIcon = () => (
     </svg>
 );
 
-const navItems = [
-    { name: 'Home', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"></path></svg>, active: false },
-    { name: 'Explore', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M168,112a56,56,0,1,1-56-56A56,56,0,0,1,168,112Zm61.66,117.66a8,8,0,0,1-11.32,0l-50.06-50.07a88,88,0,1,1,11.32-11.31l50.06,50.06A8,8,0,0,1,229.66,229.66ZM112,184a72,72,0,1,0-72-72A72.08,72.08,0,0,0,112,184Z"></path></svg>, active: true },
-    { name: 'Create', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208V208Zm-32-80a8,8,0,0,1-8,8H136v32a8,8,0,0,1-16,0V136H88a8,8,0,0,1,0-16h32V88a8,8,0,0,1,16,0v32h32A8,8,0,0,1,176,128Z"></path></svg>, active: false },
-    { name: 'Profile', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path></svg>, active: false },
-];
 
 // --- Main App Component ---
 
-const FindCreators = () => {
+const App = () => {
+    // State to store the list of creators
+    const [creators, setCreators] = useState([]);
+    // State to handle loading status while fetching data
+    const [isLoading, setIsLoading] = useState(true);
+
+    // useEffect hook to fetch data when the component mounts
+    useEffect(() => {
+        // Simulate fetching data from a backend API
+        const fetchCreators = () => {
+            // This timeout simulates the delay of a network request
+            setTimeout(() => {
+                setCreators(initialCreators);
+                setIsLoading(false);
+            }, 1500); // 1.5-second delay
+        };
+
+        fetchCreators();
+    }, []); // The empty dependency array ensures this effect runs only once
+
     return (
-        <div className="relative flex size-full min-h-screen flex-col bg-gray-50 justify-between group/design-root overflow-x-hidden">
+        <div className="relative flex size-full min-h-screen flex-col bg-gray-50 group/design-root overflow-x-hidden">
             <div>
                 {/* Header */}
                 <header className="flex items-center bg-gray-50 p-4 pb-2 justify-between">
-                    <div className="text-[#101518] flex size-12 shrink-0 items-center">
+                    <div className="text-[#101518] flex size-12 shrink-0 items-center justify-center">
                        <ArrowLeftIcon />
                     </div>
                     <h2 className="text-[#101518] text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">Find Creators</h2>
@@ -89,47 +120,41 @@ const FindCreators = () => {
                            <CaretDownIcon />
                         </div>
                     </button>
-                    {/* Add more filter buttons here if needed */}
+                    {/* You can add more filter buttons here */}
                 </div>
 
                 {/* Featured Creators Section */}
                 <section>
                     <h3 className="text-[#101518] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Featured Creators</h3>
-                    <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
-                        {featuredCreators.map((creator) => (
-                            <div key={creator.name} className="flex flex-col gap-3 text-center pb-3">
-                                <div className="px-4">
+                    {isLoading ? (
+                        <div className="text-center p-10">
+                            <p className="text-[#5c748a]">Loading creators...</p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-4 p-4">
+                            {creators.map((creator) => (
+                                <div 
+                                    key={creator.id} 
+                                    className="flex flex-col gap-2 text-center p-4 bg-white rounded-xl shadow-sm transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg"
+                                >
                                     <div
                                         className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-full"
                                         style={{ backgroundImage: `url("${creator.imageUrl}")` }}
+                                        onError={(e) => { e.target.style.backgroundImage = `url('https://placehold.co/158x158/e9edf1/101518?text=Error')` }}
                                     ></div>
+                                    
+                                    <div>
+                                        <p className="text-[#101518] text-base font-medium leading-normal">{creator.name}</p>
+                                        <p className="text-[#5c748a] text-sm font-normal leading-normal">{creator.niche}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="text-[#101518] text-base font-medium leading-normal">{creator.name}</p>
-                                    <p className="text-[#5c748a] text-sm font-normal leading-normal">{creator.niche}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </section>
             </div>
-
-            {/* Bottom Navigation */}
-            <footer className="sticky bottom-0">
-                <nav className="flex gap-2 border-t border-[#eaedf1] bg-gray-50 px-4 pb-3 pt-2">
-                    {navItems.map((item) => (
-                        <a key={item.name} href="#" className={`flex flex-1 flex-col items-center justify-end gap-1 ${item.active ? 'text-[#101518]' : 'text-[#5c748a]'}`}>
-                            <div className="flex h-8 items-center justify-center">
-                                {item.icon}
-                            </div>
-                            <p className="text-xs font-medium leading-normal tracking-[0.015em]">{item.name}</p>
-                        </a>
-                    ))}
-                </nav>
-                <div className="h-5 bg-gray-50"></div>
-            </footer>
         </div>
     );
 };
 
-export default FindCreators;
+export default App;
