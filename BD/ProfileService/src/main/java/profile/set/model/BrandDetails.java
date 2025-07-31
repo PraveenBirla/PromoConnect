@@ -21,7 +21,7 @@ public class BrandDetails {
     private String contactPerson;
     private String position;
     private String email;
-    private String location;
+    private String location; 
     public Long getUserId() {
       return userId;
     }

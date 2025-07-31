@@ -24,7 +24,7 @@ public class Creator {
   
   private String instagram ;
   private String youtube;
-  private String tiktok;
+  private String tiktok; 
   private String twitter;
   private String linkedin;
   private String facebook;   
