@@ -40,7 +40,7 @@ const ProfilePage = () => {
   if (error) return <p>{error}</p>;
 
   
-  return (
+  return ( 
     <>
       {userType === "brand" && <BrandProfile />}
       {userType === "creator" && <CreatorProfile />}
