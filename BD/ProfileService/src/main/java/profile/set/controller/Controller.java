@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -158,6 +159,11 @@ public ResponseEntity<CreatorDTO> getCreatorDetails(HttpServletRequest httpReque
         List<CreatorDTO> creators = creatorService.getAllCreators();
         return new ResponseEntity<>(creators, HttpStatus.OK);
     } 
-
+ 
+    @GetMapping("/creator/{id}")
+public ResponseEntity<CreatorDTO> getCreatorById(@PathVariable Long id){
+    CreatorDTO creator = creatorService.getCreatorById(id);
+    return new ResponseEntity<>(creator, HttpStatus.OK);
+} 
 
 }
