@@ -34,7 +34,7 @@ const Index = () => {
             'Authorization': `Bearer ${token}`
           }
         });
-
+ 
         if (!response.ok) {
           throw new Error('Failed to fetch creators');
         }
@@ -78,11 +78,7 @@ const Index = () => {
     setFilteredCreators(filtered);
   }, [creators, searchQuery, selectedFilter]);
 
-  const handleCreatorClick = (creator) => {
-    setSelectedCreator(creator);
-    showNotification(`Opening ${creator.name}'s profile`);
-  };
-
+   
   const handleFilterClick = (filter) => {
     setSelectedFilter(filter);
   };
@@ -130,7 +126,6 @@ const Index = () => {
           <CreatorList
             creators={filteredCreators}
             isLoading={isLoading}
-            onCreatorClick={handleCreatorClick}
           />
         </section> 
       </div>
