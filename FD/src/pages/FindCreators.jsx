@@ -50,11 +50,11 @@ const Index = () => {
 
         setCreators(creatorsWithImages);
         showNotification(`Found ${creatorsWithImages.length} amazing creators`);
-      } catch (error) {
+      } catch (error) {  
         console.error("Error fetching creators:", error);
         showNotification("Failed to load creators. Please try again.");
       } finally {
-        setIsLoading(false);
+        setIsLoading(false);  
       }
     };
 
@@ -132,7 +132,7 @@ const Index = () => {
             isLoading={isLoading}
             onCreatorClick={handleCreatorClick}
           />
-        </section>
+        </section> 
       </div>
     </div>
   );
