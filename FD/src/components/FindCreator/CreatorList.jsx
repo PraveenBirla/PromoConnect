@@ -15,7 +15,7 @@ const CreatorList = ({ creators, isLoading }) => {
           </div>
         ))}
       </div>
-    );
+    ); 
   }
 
   return (

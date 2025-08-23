@@ -124,7 +124,7 @@ const Index = () => {
           </h2>
 
           <CreatorList
-            creators={filteredCreators}
+            creators={filteredCreators} 
             isLoading={isLoading}
           />
         </section> 

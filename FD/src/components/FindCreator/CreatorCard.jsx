@@ -38,7 +38,7 @@ const CreatorCard = ({ creator, onClick }) => {
           {creator.niche}
         </span>
       </div>
-      
+       
       <button 
      onClick={(e) => {
     e.stopPropagation();  
