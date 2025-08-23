@@ -13,7 +13,7 @@ const CheckIcon = () => (
 
 const CreatorCard = ({ creator, onClick }) => { 
   const navigate = useNavigate();
-  return( 
+  return(    
    
   <div 
     className="group cursor-pointer bg-white hover:bg-indigo-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1 p-2 md:p-3 text-center space-y-2 md:space-y-3"
@@ -42,7 +42,7 @@ const CreatorCard = ({ creator, onClick }) => {
       <button 
      onClick={(e) => {
     e.stopPropagation();  
-    navigate('/creatordetail'); 
+    navigate(`/creator/${creator.userId}`); 
   }}
    className="w-full py-1.5 px-3 text-xs md:text-sm font-medium text-black rounded-lg border border-gray-700 rounded-lg opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 hover:from-purple-700 hover:to-purple-800"
     >

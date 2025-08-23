@@ -23,7 +23,7 @@ function App() {
          <Route path="/how-it-works" element={<HowItWorks/>}/>
          <Route path='/profile' element={<Profile/>} />
          <Route path='/findcreators' element={<FindCreators/>}/>
-         <Route path='/creatordetail' element={<CreatorDetailPage/>}/>
+         <Route path='/creator/:userId' element={<CreatorDetailPage/>}/>
       </Routes>       
       </BrowserRouter>
      
