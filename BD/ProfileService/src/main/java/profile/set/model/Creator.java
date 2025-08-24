@@ -84,7 +84,7 @@ public class Creator {
     this.twitter = twitter;
   }
   public String getLinkedin() {
-    return linkedin;
+    return linkedin; 
   }
   public void setLinkedin(String linkedin) {
     this.linkedin = linkedin;
