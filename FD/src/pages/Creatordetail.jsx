@@ -44,7 +44,7 @@ const CreatorProfile = () => {
           joinedDate: "March 2023",
           isVerified: true,
           engagement: "94.5%",
-          totalViews: "2.4M",
+          totalViews: "2.4M", 
           location: "San Francisco, CA",
           followers: 125000,
           following: 892,
@@ -153,25 +153,97 @@ const CreatorProfile = () => {
                 {liked ? "Liked" : "Like"}
               </button>
             </div>
-          </div>
+          </div> 
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* About Section */}
+          
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-xl font-bold mb-4 text-gray-800">About Me</h2>
               <p className="text-gray-700 leading-relaxed">{profileData.bio}</p>
             </div>
 
-            {/* Social Links (Static Section) */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold mb-4 text-gray-800">Social Links</h2>
-              <p className="text-gray-600">Links to creator’s social platforms will appear here.</p>
-            </div>
+             
+             
+{/* Social Links */}
+<div className="bg-white rounded-xl shadow-lg p-6">
+  <h2 className="text-xl font-bold mb-4 text-gray-800">Social Links</h2>
+  
+  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+    {profileData.instagram && (
+      <a
+        href={profileData.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 p-3 rounded-lg bg-gradient-to-r from-pink-500 to-yellow-500 text-white shadow-md hover:scale-105 transition transform"
+      >
+        <i className="fab fa-instagram text-lg"></i>
+        <span>Instagram</span>
+      </a>
+    )}
+    {profileData.youtube && (
+      <a
+        href={profileData.youtube}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 p-3 rounded-lg bg-red-600 text-white shadow-md hover:scale-105 transition transform"
+      >
+        <i className="fab fa-youtube text-lg"></i>
+        <span>YouTube</span>
+      </a>
+    )}
+    {profileData.tiktok && (
+      <a
+        href={profileData.tiktok}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 p-3 rounded-lg bg-black text-white shadow-md hover:scale-105 transition transform"
+      >
+        <i className="fab fa-tiktok text-lg"></i>
+        <span>TikTok</span>
+      </a>
+    )}
+    {profileData.twitter && (
+      <a
+        href={profileData.twitter}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 p-3 rounded-lg bg-sky-500 text-white shadow-md hover:scale-105 transition transform"
+      >
+        <i className="fab fa-twitter text-lg"></i>
+        <span>Twitter</span>
+      </a>
+    )}
+    {profileData.linkedin && (
+      <a
+        href={profileData.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 p-3 rounded-lg bg-blue-600 text-white shadow-md hover:scale-105 transition transform"
+      >
+        <i className="fab fa-linkedin text-lg"></i>
+        <span>LinkedIn</span>
+      </a>
+    )}
+    {profileData.facebook && (
+      <a
+        href={profileData.facebook}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 p-3 rounded-lg bg-blue-700 text-white shadow-md hover:scale-105 transition transform"
+      >
+        <i className="fab fa-facebook text-lg"></i>
+        <span>Facebook</span>
+      </a>
+    )}
+  </div>
+</div>
+
+
           </div>
 
-          {/* Message Section - Right Side */}
+           
           <div className="space-y-8">
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
