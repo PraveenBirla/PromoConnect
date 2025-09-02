@@ -3,6 +3,11 @@ package profile.set.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List ;
+import java.util.stream.Collectors;
+
+import jakarta.transaction.Transactional;
+import profile.set.request.BrandDTO;
 import profile.set.model.BrandDetails;
 import profile.set.repository.BrandDetailsRepository;
 import profile.set.request.BrandDetailsRequest;
@@ -32,5 +37,25 @@ public class BrandDetailsService {
         brand.setLocation(request.getLocation());
 
         return brandDetailsRepository.save(brand);
+    } 
+     
+     @Transactional
+     public List<BrandDTO> getAllBrands(){ 
+         List<BrandDetails> brands = brandDetailsRepository.findAll();
+        
+         return brands.stream().map(brand -> {
+             BrandDTO dto = new BrandDTO();
+             dto.setUserId(brand.getUserId());
+             dto.setCompanyName(brand.getCompanyName());
+             dto.setWebsite(brand.getWebsite());
+             dto.setDescription(brand.getDescription());
+             dto.setCompanySize(brand.getCompanySize());
+             dto.setContactPerson(brand.getContactPerson());
+             dto.setPosition(brand.getPosition());
+             dto.setEmail(brand.getEmail());
+             dto.setLocation(brand.getLocation());
+             dto.setIndustry(brand.getIndustry());
+             return dto;
+         }).collect(Collectors.toList());
     }
 }

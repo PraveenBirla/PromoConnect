@@ -6,5 +6,7 @@ import feign.Param;
 import profile.set.model.BrandDetails;
 
 public interface BrandDetailsRepository extends JpaRepository<BrandDetails, Long> {
-       Optional<BrandDetails> findByUserId(@Param("id") Long userId);
+       Optional<BrandDetails> findByUserId(@Param("id") Long userId); 
+
+       
 }

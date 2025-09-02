@@ -34,9 +34,9 @@ const CreatorProfile = () => {
 
         const data = await response.json();
         setProfileData(data);
-      } catch (error) {
+      } catch (error) { 
         console.error("Error fetching profile:", error);
-        // Fallback data for demo
+         
         setProfileData({
           displayName: "Alex Creator",
           bio: "Digital content creator passionate about tech, lifestyle, and creative storytelling. Building communities through authentic engagement and meaningful connections.",
