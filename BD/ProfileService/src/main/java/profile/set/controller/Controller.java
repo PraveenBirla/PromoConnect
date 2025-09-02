@@ -23,6 +23,7 @@ import profile.set.model.Creator;
 import profile.set.repository.BrandDetailsRepository;
 import profile.set.request.BrandDetailsRequest;
 import profile.set.request.CreatorDTO;
+import profile.set.request.BrandDTO;
 import profile.set.request.CreatorDetailRequest;
 import profile.set.request.UserInfo;
 import profile.set.service.BrandDetailsService;
@@ -165,5 +166,11 @@ public ResponseEntity<CreatorDTO> getCreatorById(@PathVariable Long id){
     CreatorDTO creator = creatorService.getCreatorById(id);
     return new ResponseEntity<>(creator, HttpStatus.OK);
 } 
+  
+ @GetMapping("/getAllBrands") 
+   public ResponseEntity<List<BrandDTO>> getAllBrands() {
+     List<BrandDTO> brands = brandDetailsService.getAllBrands();
+     return new ResponseEntity<>(brands ,HttpStatus.OK );
+   } 
 
 }
