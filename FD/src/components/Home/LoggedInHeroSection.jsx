@@ -61,7 +61,7 @@ const LoggedInHeroSection = () => {
               </button>
             </Link>
 
-            <Link to="/advertisers" className="w-full sm:w-auto">
+            <Link to="/findbrands" className="w-full sm:w-auto">
               <button
                 type="button"
                 className="   sm:w-auto px-5 py-3 text-sm sm:text-base lg:text-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl inline-flex items-center justify-center"

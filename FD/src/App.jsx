@@ -5,6 +5,7 @@ import Onboarding from './pages/Onboarding'
 import HowItWorks from './pages/HowItWorks'
 import Profile from './pages/Profile'
 import FindCreators from './pages/FindCreators';
+import FindBrands from './pages/FindBrands';
 import './App.css' ;
  import CreatorDetailPage from './pages/Creatordetail';
 import { BrowserRouter, Routes ,Route } from 'react-router-dom'
@@ -24,6 +25,7 @@ function App() {
          <Route path='/profile' element={<Profile/>} />
          <Route path='/findcreators' element={<FindCreators/>}/>
          <Route path='/creator/:userId' element={<CreatorDetailPage/>}/>
+         <Route path ='/findbrands' element={<FindBrands/>}/>
       </Routes>       
       </BrowserRouter>
      
