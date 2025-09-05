@@ -54,12 +54,14 @@ const Index = () => {
         console.error("Error fetching creators:", error);
         showNotification("Failed to load creators. Please try again.");
       } finally {
-        setIsLoading(false);  
+        setIsLoading(false);   
       }
     };
 
     fetchCreators();
-  }, []);
+  }, []); 
+
+  
 
   useEffect(() => {
     let filtered = creators;
@@ -101,7 +103,7 @@ const Index = () => {
         <div className="flex gap-2 overflow-x-auto pb-2">
           {FILTER_OPTIONS.map((filter) => (
             <FilterChip
-              key={filter}
+              key={filter} 
               label={filter}
               isActive={selectedFilter === filter}
               onClick={() => handleFilterClick(filter)}

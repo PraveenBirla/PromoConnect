@@ -18,9 +18,10 @@ const Header = () => {
       </button> 
       <h1  className="text-lg font-bold bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">
         Find Brands
-      </h1>
+      </h1> 
+      <div className="w-10"/>
         </div >
-      </header>
+      </header >
   );
 } 
 
