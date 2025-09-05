@@ -121,7 +121,7 @@ const Index = () => {
 
         
         <section>
-          <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">
+          <h2 className=" text:1px sm:text-xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">
             {selectedFilter === 'All' ? 'Featured Creators' : `${selectedFilter} Creators`}
           </h2>
 

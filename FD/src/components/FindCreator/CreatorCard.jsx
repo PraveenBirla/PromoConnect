@@ -14,12 +14,12 @@ const CheckIcon = () => (
 const CreatorCard = ({ creator, onClick }) => { 
   const navigate = useNavigate();
   return(    
-   
-  <div 
-    className="group cursor-pointer bg-white hover:bg-indigo-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1 p-2 md:p-3 text-center space-y-2 md:space-y-3"
+      
+  <div  
+    className="group cursor-pointer bg-white hover:bg-indigo-50 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1  md:p-3 text-center space-y-2 md:space-y-3"
     onClick={() => onClick(creator)}
   >
-    <div className="p-4 text-center space-y-3">
+    <div className="p-4 text-center sm:space-y-3 space-y-1">
       <div className="relative">
         <div
           className="w-15 h-15 md:h-16 md:w-16 mx-auto bg-center bg-no-repeat bg-cover rounded-full ring-2 ring-purple-200 group-hover:ring-purple-400 transition-all duration-300"
@@ -53,4 +53,4 @@ const CreatorCard = ({ creator, onClick }) => {
 );
 };
 
-export default CreatorCard;
+export default CreatorCard; 
