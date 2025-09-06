@@ -171,6 +171,13 @@ public ResponseEntity<CreatorDTO> getCreatorById(@PathVariable Long id){
    public ResponseEntity<List<BrandDTO>> getAllBrands() {
      List<BrandDTO> brands = brandDetailsService.getAllBrands();
      return new ResponseEntity<>(brands ,HttpStatus.OK );
-   } 
+   }  
+
+   @GetMapping("/brand/{id}")
+    public ResponseEntity<BrandDTO> getBrandById(@PathVariable Long id){
+         BrandDTO brand = brandDetailsService.getBrandById(id);
+         return new ResponseEntity<>(brand , HttpStatus.OK);
+    }
+   
 
 }

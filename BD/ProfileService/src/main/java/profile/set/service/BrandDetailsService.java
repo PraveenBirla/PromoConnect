@@ -57,5 +57,26 @@ public class BrandDetailsService {
              dto.setIndustry(brand.getIndustry());
              return dto;
          }).collect(Collectors.toList());
+    } 
+
+
+    @Transactional
+    public BrandDTO getBrandById(Long id){
+        BrandDetails brand = brandDetailsRepository.findByUserId(id)
+        .orElseThrow(() -> new RuntimeException("Creator not found with id: " + id));
+
+        BrandDTO dto = new BrandDTO();
+
+        dto.setCompanyName(brand.getCompanyName());
+        dto.setCompanySize(brand.getCompanySize());
+        dto.setContactPerson(brand.getContactPerson());
+        dto.setDescription(brand.getDescription());
+        dto.setEmail(brand.getEmail());
+        dto.setIndustry(brand.getIndustry());
+        dto.setLocation(brand.getLocation());
+        dto.setPosition(brand.getPosition());
+        dto.setWebsite(brand.getWebsite());
+    
+        return dto ;
     }
 }
